@@ -1,7 +1,7 @@
 package cn.ucai.chatuidemo.activity;
 
 import com.easemob.chat.EMChatManager;
-import com.easemob.chatuidemo.R;
+import cn.ucai.chatuidemo.R;
 
 import android.app.ProgressDialog;
 import android.graphics.Color;

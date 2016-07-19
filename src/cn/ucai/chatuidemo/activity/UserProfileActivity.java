@@ -26,7 +26,7 @@ import com.easemob.EMValueCallBack;
 import cn.ucai.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import cn.ucai.chatuidemo.DemoHXSDKHelper;
-import com.easemob.chatuidemo.R;
+import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.domain.User;
 import cn.ucai.chatuidemo.utils.UserUtils;
 import com.squareup.picasso.Picasso;

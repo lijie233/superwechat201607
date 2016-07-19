@@ -89,7 +89,7 @@ import com.easemob.chat.VideoMessageBody;
 import com.easemob.chat.VoiceMessageBody;
 import cn.ucai.chatuidemo.DemoApplication;
 import cn.ucai.chatuidemo.DemoHXSDKHelper;
-import com.easemob.chatuidemo.R;
+import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.adapter.ExpressionAdapter;
 import cn.ucai.chatuidemo.adapter.ExpressionPagerAdapter;
 import cn.ucai.chatuidemo.adapter.MessageAdapter;

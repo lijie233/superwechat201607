@@ -25,7 +25,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.easemob.chatuidemo.R;
+
+import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.task.DownloadImageTask;
 import cn.ucai.chatuidemo.utils.ImageCache;
 import com.easemob.util.ImageUtils;

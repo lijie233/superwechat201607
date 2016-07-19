@@ -55,7 +55,7 @@ import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
 import cn.ucai.chatuidemo.DemoApplication;
 import cn.ucai.chatuidemo.DemoHXSDKHelper;
-import com.easemob.chatuidemo.R;
+import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.adapter.ChatHistoryAdapter;
 import cn.ucai.chatuidemo.db.InviteMessgeDao;
 import cn.ucai.chatuidemo.domain.User;

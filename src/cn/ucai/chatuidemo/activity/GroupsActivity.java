@@ -35,7 +35,7 @@ import cn.ucai.applib.controller.HXSDKHelper;
 
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
-import com.easemob.chatuidemo.R;
+import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.adapter.GroupAdapter;
 
 import com.easemob.util.EMLog;

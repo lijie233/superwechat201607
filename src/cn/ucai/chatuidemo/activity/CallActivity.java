@@ -11,7 +11,8 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
 import cn.ucai.chatuidemo.Constant;
-import com.easemob.chatuidemo.R;
+import cn.ucai.chatuidemo.R;
+
 
 public class CallActivity extends BaseActivity {
 
@@ -50,9 +51,7 @@ public class CallActivity extends BaseActivity {
     
     /**
      * 播放拨号响铃
-     * 
-     * @param sound
-     * @param number
+     *
      */
     protected int playMakeCallSounds() {
         try {

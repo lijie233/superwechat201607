@@ -41,7 +41,7 @@ import com.easemob.chat.EMChatOptions;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.EMMessage.ChatType;
 import com.easemob.chat.EMMessage.Type;
-import com.easemob.chatuidemo.R;
+import cn.ucai.chatuidemo.R;
 
 import cn.ucai.chatuidemo.activity.ChatActivity;
 import cn.ucai.chatuidemo.activity.MainActivity;

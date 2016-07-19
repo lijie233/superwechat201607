@@ -38,7 +38,7 @@ import com.easemob.chat.EMGroupManager;
 import cn.ucai.chatuidemo.Constant;
 import cn.ucai.chatuidemo.DemoApplication;
 import cn.ucai.chatuidemo.DemoHXSDKHelper;
-import com.easemob.chatuidemo.R;
+import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.db.UserDao;
 import cn.ucai.chatuidemo.domain.User;
 import cn.ucai.chatuidemo.utils.CommonUtils;

@@ -8,7 +8,7 @@ import android.widget.TextView;
 import cn.ucai.applib.controller.HXSDKHelper;
 import cn.ucai.chatuidemo.DemoHXSDKHelper;
 
-import com.easemob.chatuidemo.R;
+import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.domain.User;
 import com.squareup.picasso.Picasso;
 

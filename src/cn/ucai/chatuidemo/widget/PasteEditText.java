@@ -22,7 +22,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
-import com.easemob.chatuidemo.R;
+import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.activity.AlertDialog;
 import cn.ucai.chatuidemo.activity.ChatActivity;
 

@@ -69,7 +69,7 @@ import com.easemob.chat.VideoMessageBody;
 import com.easemob.chat.VoiceMessageBody;
 import cn.ucai.chatuidemo.Constant;
 import cn.ucai.chatuidemo.DemoHXSDKHelper;
-import com.easemob.chatuidemo.R;
+import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.activity.AlertDialog;
 import cn.ucai.chatuidemo.activity.BaiduMapActivity;
 import cn.ucai.chatuidemo.activity.ChatActivity;

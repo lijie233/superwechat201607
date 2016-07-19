@@ -37,7 +37,7 @@ import com.easemob.chat.EMChatOptions;
 import cn.ucai.chatuidemo.Constant;
 import cn.ucai.chatuidemo.DemoHXSDKHelper;
 import cn.ucai.chatuidemo.DemoHXSDKModel;
-import com.easemob.chatuidemo.R;
+import cn.ucai.chatuidemo.R;
 
 /**
  * 设置界面

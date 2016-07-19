@@ -1,6 +1,6 @@
 package cn.ucai.chatuidemo.activity;
 
-import com.easemob.chatuidemo.R;
+import cn.ucai.chatuidemo.R;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -42,7 +42,7 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMContact;
 
 import cn.ucai.chatuidemo.DemoHXSDKHelper;
-import com.easemob.chatuidemo.R;
+import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.db.UserDao;
 import cn.ucai.chatuidemo.domain.RobotUser;
 import com.easemob.exceptions.EaseMobException;

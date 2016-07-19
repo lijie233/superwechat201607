@@ -30,7 +30,7 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import cn.ucai.chatuidemo.Constant;
-import com.easemob.chatuidemo.R;
+import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.domain.User;
 import cn.ucai.chatuidemo.utils.UserUtils;
 

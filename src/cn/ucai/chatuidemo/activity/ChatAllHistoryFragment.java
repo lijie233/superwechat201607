@@ -39,7 +39,7 @@ import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMConversation.EMConversationType;
 import cn.ucai.chatuidemo.Constant;
 import cn.ucai.chatuidemo.DemoApplication;
-import com.easemob.chatuidemo.R;
+import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.adapter.ChatAllHistoryAdapter;
 import cn.ucai.chatuidemo.db.InviteMessgeDao;
 

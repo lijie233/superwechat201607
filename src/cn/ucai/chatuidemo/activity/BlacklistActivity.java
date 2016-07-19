@@ -19,8 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.easemob.chat.EMContactManager;
-import com.easemob.chatuidemo.R;
+
 import com.easemob.exceptions.EaseMobException;
+
+import cn.ucai.chatuidemo.R;
 
 /**
  * 黑名单列表页面

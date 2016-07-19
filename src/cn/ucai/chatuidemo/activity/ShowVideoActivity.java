@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
-import com.easemob.chatuidemo.R;
+import cn.ucai.chatuidemo.R;
 import com.easemob.util.EMLog;
 import com.easemob.util.PathUtil;
 

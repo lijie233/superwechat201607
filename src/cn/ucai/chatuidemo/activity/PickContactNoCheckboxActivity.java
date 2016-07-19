@@ -31,7 +31,7 @@ import android.widget.ListView;
 import cn.ucai.applib.controller.HXSDKHelper;
 import cn.ucai.chatuidemo.Constant;
 import cn.ucai.chatuidemo.DemoHXSDKHelper;
-import com.easemob.chatuidemo.R;
+import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.adapter.ContactAdapter;
 import cn.ucai.chatuidemo.domain.User;
 import cn.ucai.chatuidemo.widget.Sidebar;
