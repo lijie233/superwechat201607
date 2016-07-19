@@ -18,6 +18,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.easemob.EMError;
@@ -33,16 +35,27 @@ import com.easemob.exceptions.EaseMobException;
  */
 public class RegisterActivity extends BaseActivity {
 	private EditText userNameEditText;
+	private EditText userNickEditText;
 	private EditText passwordEditText;
 	private EditText confirmPwdEditText;
+	private RelativeLayout layoutAvatar;
+	private ImageView imAvatar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
+		initView();
+
+	}
+
+	private void initView() {
 		userNameEditText = (EditText) findViewById(R.id.username);
 		passwordEditText = (EditText) findViewById(R.id.password);
 		confirmPwdEditText = (EditText) findViewById(R.id.confirm_password);
+		userNickEditText = (EditText) findViewById(R.id.nick);
+		layoutAvatar = (RelativeLayout) findViewById(R.id.layout_register_avatar);
+		imAvatar = (ImageView) findViewById(R.id.avatar);
 	}
 
 	/**
