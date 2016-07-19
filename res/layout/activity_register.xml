@@ -177,6 +177,8 @@
                 android:inputType="textPassword"
                 android:paddingLeft="10dip"
                 android:singleLine="true"
+                android:clickable="false"
+                android:enabled="false"
                 android:textSize="18sp" />
         </RelativeLayout>
 
