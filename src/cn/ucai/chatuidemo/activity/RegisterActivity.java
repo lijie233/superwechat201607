@@ -46,7 +46,23 @@ public class RegisterActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
 		initView();
+		setListener();
 
+	}
+
+	private void setListener() {
+		findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				finish();
+			}
+		});
+		findViewById(R.id.btn_register).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				register();
+			}
+		});
 	}
 
 	private void initView() {
@@ -60,10 +76,9 @@ public class RegisterActivity extends BaseActivity {
 
 	/**
 	 * 注册
-	 * 
-	 * @param view
+	 *
 	 */
-	public void register(View view) {
+	private void register() {
 		final String username = userNameEditText.getText().toString().trim();
 		final String pwd = passwordEditText.getText().toString().trim();
 		String confirm_pwd = confirmPwdEditText.getText().toString().trim();
