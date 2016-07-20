@@ -46,6 +46,7 @@ import cn.ucai.chatuidemo.DemoHXSDKHelper;
 import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.db.UserDao;
 import cn.ucai.chatuidemo.domain.User;
+import cn.ucai.chatuidemo.task.DownloadContactListTask;
 import cn.ucai.chatuidemo.utils.CommonUtils;
 import cn.ucai.chatuidemo.utils.Utils;
 import cn.ucai.data.OkHttpUtils2;
@@ -179,7 +180,8 @@ public class LoginActivity extends BaseActivity {
 									}
 								} else {
 									pd.dismiss();
-									Toast.makeText(getApplicationContext(),R.string.Login_failed+result.getRetCode(),Toast.LENGTH_SHORT).show();
+									Toast.makeText(getApplicationContext(),
+											R.string.Login_failed+result.getRetCode(),Toast.LENGTH_SHORT).show();
 								}
 							}
 
@@ -227,6 +229,7 @@ public class LoginActivity extends BaseActivity {
 		SuperWeChatApplication.getInstance().setPassword(currentPassword);
 		SuperWeChatApplication.getInstance().setUser(user);
 		SuperWeChatApplication.currentUserNick=user.getMUserNick();
+		new DownloadContactListTask(LoginActivity.this,currentUsername).excute();
 		try {
 			// ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
 			// ** manually load all local groups and
