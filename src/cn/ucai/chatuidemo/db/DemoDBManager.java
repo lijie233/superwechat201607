@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
+import cn.ucai.bean.UserAvatar;
 import cn.ucai.chatuidemo.Constant;
 import cn.ucai.chatuidemo.domain.InviteMessage;
 import cn.ucai.chatuidemo.domain.RobotUser;
@@ -344,7 +345,20 @@ public class DemoDBManager {
 		}
 		return users;
 	}
-    
-    
+
+    synchronized public void saveUserAvatar(UserAvatar user){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(UserDao.USER_COLUMN_NAME_ID, user.getMUserName());
+        values.put(UserDao.USER_COLUMN_NAME_NICK, user.getMUserNick());
+        values.put(UserDao.USER_COLUMN_NAME_AVATAR, user.getMAvatarId());
+        values.put(UserDao.USER_COLUMN_AVATAR_PATH, user.getMAvatarPath());
+        values.put(UserDao.USER_COLUMN_AVATAR_TYPE, user.getMAvatarType());
+        values.put(UserDao.USER_COLUMN_AVATAR_LAST_UPDATE_TIME, user.getMAvatarLastUpdateTime());
+
+        if(db.isOpen()){
+            db.replace(UserDao.TABLE_NAME, null, values);
+        }
+    }
     
 }
