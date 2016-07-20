@@ -39,6 +39,7 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
 
 import cn.ucai.bean.Result;
+import cn.ucai.bean.UserAvatar;
 import cn.ucai.chatuidemo.Constant;
 import cn.ucai.chatuidemo.SuperWeChatApplication;
 import cn.ucai.chatuidemo.DemoHXSDKHelper;
@@ -46,6 +47,7 @@ import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.db.UserDao;
 import cn.ucai.chatuidemo.domain.User;
 import cn.ucai.chatuidemo.utils.CommonUtils;
+import cn.ucai.chatuidemo.utils.Utils;
 import cn.ucai.data.OkHttpUtils2;
 
 /**
@@ -154,22 +156,27 @@ public class LoginActivity extends BaseActivity {
 				if (!progressShow) {
 					return;
 				}
-				loginAppSever();
 
+				loginAppSever();
 			}
 
 			private void loginAppSever() {
-				final OkHttpUtils2<Result> utils = new OkHttpUtils2<Result>();
+				final OkHttpUtils2<String> utils = new OkHttpUtils2<String>();
 				utils.setRequestUrl(I.REQUEST_LOGIN)
 						.addParam(I.User.USER_NAME,currentUsername)
 						.addParam(I.User.PASSWORD,currentPassword)
-						.targetClass(Result.class)
-						.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
+						.targetClass(String.class)
+						.execute(new OkHttpUtils2.OnCompleteListener<String>() {
 							@Override
-							public void onSuccess(Result result) {
+							public void onSuccess(String s) {
+								Result result=Utils.getResultFromJson(s, UserAvatar.class);
 								Log.e(TAG, "result+" + result);
 								if (result != null && result.isRetMsg()) {
-									loginSuccess();
+									UserAvatar user = (UserAvatar) result.getRetData();
+									if(user!=null) {
+										saveUserToDB(user);
+										loginSuccess(user);
+									}
 								} else {
 									pd.dismiss();
 									Toast.makeText(getApplicationContext(),R.string.Login_failed+result.getRetCode(),Toast.LENGTH_SHORT).show();
@@ -207,11 +214,19 @@ public class LoginActivity extends BaseActivity {
 		});
 	}
 
-	private void loginSuccess() {
+	private void saveUserToDB(UserAvatar user) {
+
+			// 存入db
+			UserDao dao = new UserDao(LoginActivity.this);
+			dao.saveUserAvatar(user);
+
+	}
+	private void loginSuccess(UserAvatar user) {
 		// 登陆成功，保存用户名密码
 		SuperWeChatApplication.getInstance().setUserName(currentUsername);
 		SuperWeChatApplication.getInstance().setPassword(currentPassword);
-
+		SuperWeChatApplication.getInstance().setUser(user);
+		SuperWeChatApplication.currentUserNick=user.getMUserNick();
 		try {
 			// ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
 			// ** manually load all local groups and
