@@ -81,7 +81,7 @@ public interface I {
 	String AVATAR_TYPE_GROUP_PATH 					=		"group_icon";					//群组头像保存目录
 	String AVATAR_SUFFIX_PNG						=		".png";							//PNG图片后缀名
 	String AVATAR_SUFFIX_JPG						=		".jpg";							//JPG图片后缀名
-	String  QUESTION 								= 		"?";							//问号
+	String  QUESTION 								= 		"?";							//问号?`
 	String EQU										=		"=";
 	String MSG_PREFIX_MSG							=		"msg_";							//消息后缀
 	int LOCATION_IS_SEARCH_ALLOW					=		1;								//可以被搜索到地理位置
