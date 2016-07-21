@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
+import cn.ucai.I;
 import cn.ucai.chatuidemo.Constant;
 import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.domain.User;
@@ -209,8 +210,10 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 					final User user = mOriginalList.get(i);
 					String username = user.getUsername();
 					
-					if(username.startsWith(prefixString)){
-						newValues.add(user);
+					if(username.contains(prefixString)){
+                        if (!username.equals(Constant.GROUP_USERNAME) && !username.equals(Constant.NEW_FRIENDS_USERNAME)) {
+                            newValues.add(user);
+                        }
 					}
 					else{
 						 final String[] words = username.split(" ");
