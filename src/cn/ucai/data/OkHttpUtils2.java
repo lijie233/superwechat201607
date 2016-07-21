@@ -259,12 +259,12 @@ public class OkHttpUtils2<T> {
 
     public OkHttpUtils2<T> setRequestUrl(String request) {
         mUrl = new StringBuilder(I.SERVER_ROOT);
-        mUrl.append(I.QUESTION).append(I.KEY_REQUEST).append(I.EQU).append(request);
+        mUrl.append(I.QUESTION).append(I.KEY_REQUEST).append(I.EQUALS).append(request);
 //        Log.e("okhttp","1 murl="+ mUrl.toString());
         return this;
     }
 
-    public OkHttpUtils2<T> addFile(File file) {
+    public OkHttpUtils2<T> addFile2(File file) {
         if (mUrl == null) {
             return this;
         }
@@ -276,6 +276,15 @@ public class OkHttpUtils2<T> {
                 .build();
         return this;
     }
+
+    public OkHttpUtils2<T> addFile(File file) {
+        if (mUrl == null) {
+            return this;
+        }
+        mFileBody = RequestBody.create(null, file);
+        return this;
+    }
+
 
     private String guessMimeType(String path)
     {

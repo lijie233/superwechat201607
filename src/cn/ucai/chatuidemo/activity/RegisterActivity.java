@@ -31,7 +31,9 @@ import cn.ucai.I;
 import cn.ucai.bean.Result;
 import cn.ucai.chatuidemo.SuperWeChatApplication;
 import cn.ucai.chatuidemo.R;
+import cn.ucai.chatuidemo.db.UserDao;
 import cn.ucai.chatuidemo.listener.OnSetAvatarListener;
+import cn.ucai.chatuidemo.utils.Utils;
 import cn.ucai.data.OkHttpUtils2;
 
 import com.easemob.exceptions.EaseMobException;
@@ -43,19 +45,21 @@ import java.io.File;
  * 
  */
 public class RegisterActivity extends BaseActivity {
-	private static final String TAG=RegisterActivity.class.getSimpleName();
+	private static final String TAG = RegisterActivity.class.getSimpleName();
 	private EditText userNameEditText;
-	private EditText userNickEditText;
 	private EditText passwordEditText;
 	private EditText confirmPwdEditText;
+	private EditText userNickEditText;
 	private RelativeLayout layoutAvatar;
 	private ImageView imAvatar;
 	private OnSetAvatarListener mOnSetAvatarListener;
 	String avatarName;
-	String username;
 	String nick;
+	String username;
 	String pwd;
 	ProgressDialog pd;
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -77,11 +81,10 @@ public class RegisterActivity extends BaseActivity {
 			public void onClick(View view) {
 				register();
 			}
-		});
-		layoutAvatar.setOnClickListener(new View.OnClickListener() {
+		});layoutAvatar.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mOnSetAvatarListener = new OnSetAvatarListener(RegisterActivity.this, R.id.layout_register,
+				mOnSetAvatarListener = new OnSetAvatarListener(RegisterActivity.this,R.id.layout_register,
 						getAvatarName(), I.AVATAR_TYPE_USER_PATH);
 			}
 		});
@@ -90,40 +93,37 @@ public class RegisterActivity extends BaseActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode != RESULT_OK) {
+		if (resultCode!=RESULT_OK){
 			return;
 		}
 		mOnSetAvatarListener.setAvatar(requestCode,data,imAvatar);
 	}
 
 	private String getAvatarName() {
-		avatarName= String.valueOf(System.currentTimeMillis());
+		avatarName = String.valueOf(System.currentTimeMillis());
 		return avatarName;
 	}
 
 	private void initView() {
 		userNameEditText = (EditText) findViewById(R.id.username);
+		userNickEditText = (EditText) findViewById(R.id.nick);
 		passwordEditText = (EditText) findViewById(R.id.password);
 		confirmPwdEditText = (EditText) findViewById(R.id.confirm_password);
-		userNickEditText = (EditText) findViewById(R.id.nick);
 		layoutAvatar = (RelativeLayout) findViewById(R.id.layout_register_avatar);
-		imAvatar = (ImageView) findViewById(R.id.avatar);
+		imAvatar = (ImageView) findViewById(R.id.iv_avatar);
+
 	}
 
-	/**
-	 * 注册
-	 *
-	 */
 	private void register() {
-		username = userNameEditText.getText().toString().trim();
 		nick = userNickEditText.getText().toString().trim();
+		username = userNameEditText.getText().toString().trim();
 		pwd = passwordEditText.getText().toString().trim();
 		String confirm_pwd = confirmPwdEditText.getText().toString().trim();
 		if (TextUtils.isEmpty(username)) {
 			Toast.makeText(this, getResources().getString(R.string.User_name_cannot_be_empty), Toast.LENGTH_SHORT).show();
 			userNameEditText.requestFocus();
 			return;
-		} else if(!username.matches("[\\w][\\w\\d_]+")) {
+		} else if (!username.matches("[\\w][\\w\\d_]+")) {
 			Toast.makeText(this, getResources().getString(R.string.illegal_user_name), Toast.LENGTH_SHORT).show();
 			userNameEditText.requestFocus();
 			return;
@@ -131,7 +131,7 @@ public class RegisterActivity extends BaseActivity {
 			Toast.makeText(this, getResources().getString(R.string.toast_nick_not_isnull), Toast.LENGTH_SHORT).show();
 			userNickEditText.requestFocus();
 			return;
-		} else if (TextUtils.isEmpty(pwd)) {
+		}else if (TextUtils.isEmpty(pwd)) {
 			Toast.makeText(this, getResources().getString(R.string.Password_cannot_be_empty), Toast.LENGTH_SHORT).show();
 			passwordEditText.requestFocus();
 			return;
@@ -150,13 +150,12 @@ public class RegisterActivity extends BaseActivity {
 			pd.show();
 			registerAppServer();
 
-
 		}
 	}
 
 	private void registerAppServer() {
-		File file = new File(OnSetAvatarListener.getAvatarPath(RegisterActivity.this, I.AVATAR_TYPE_USER_PATH)
-				, avatarName + I.AVATAR_SUFFIX_JPG);
+		File file = new File(OnSetAvatarListener.getAvatarPath(RegisterActivity.this,I.AVATAR_TYPE_USER_PATH),
+				avatarName+I.AVATAR_SUFFIX_JPG);
 		final OkHttpUtils2<Result> utils = new OkHttpUtils2<Result>();
 		utils.setRequestUrl(I.REQUEST_REGISTER)
 				.addParam(I.User.USER_NAME,username)
@@ -167,25 +166,29 @@ public class RegisterActivity extends BaseActivity {
 				.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
 					@Override
 					public void onSuccess(Result result) {
-						Log.e(TAG, "result=" + result);
-						if (result.isRetMsg()) {
+						Log.e(TAG,"result="+result);
+						if (result.isRetMsg()){
 							registerEMServer();
-						} else {
-							Log.e(TAG, "register fail..." + result.getRetCode());
+						}else{
+							Log.e(TAG,"register fail..."+result.getRetCode());
 							pd.dismiss();
-							Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registration_failed), Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(),
+									R.string.Login_failed+
+											Utils.getResourceString(RegisterActivity.this,result.getRetCode()),
+									Toast.LENGTH_LONG).show();
 						}
 					}
 
 					@Override
 					public void onError(String error) {
-						Log.e(TAG, "register error..." + error);
+						Log.e(TAG,"register error..."+error);
 						pd.dismiss();
 					}
 				});
+
 	}
 
-	private void registerEMServer() {
+	private void registerEMServer(){
 		new Thread(new Runnable() {
 			public void run() {
 				try {
@@ -197,7 +200,7 @@ public class RegisterActivity extends BaseActivity {
 								pd.dismiss();
 							// 保存用户名
 							SuperWeChatApplication.getInstance().setUserName(username);
-							Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registered_successfully),Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registered_successfully), Toast.LENGTH_LONG).show();
 							finish();
 						}
 					});
@@ -234,15 +237,13 @@ public class RegisterActivity extends BaseActivity {
 				.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
 					@Override
 					public void onSuccess(Result result) {
-						Log.e(TAG, "result=" + result);
+						Log.e(TAG,"result="+result);
 					}
-
 					@Override
 					public void onError(String error) {
-						Log.e(TAG, "register error..." + error);
+						Log.e(TAG,"unRegister error"+error);
 					}
 				});
-
 	}
 
 	public void back(View view) {

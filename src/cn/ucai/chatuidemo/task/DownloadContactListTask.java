@@ -38,6 +38,7 @@ public class DownloadContactListTask {
                         List<UserAvatar> list = (List<UserAvatar>) result.getRetData();
                         if (list != null && list.size() > 0) {
                             SuperWeChatApplication.getInstance().setUserList(list);
+                            Log.e("main", list.toString());
                             context.sendStickyBroadcast(new Intent("update_contact_list"));
                         }
                     }
