@@ -7,9 +7,11 @@ import android.widget.TextView;
 
 import cn.ucai.I;
 import cn.ucai.applib.controller.HXSDKHelper;
+import cn.ucai.bean.UserAvatar;
 import cn.ucai.chatuidemo.DemoHXSDKHelper;
 
 import cn.ucai.chatuidemo.R;
+import cn.ucai.chatuidemo.SuperWeChatApplication;
 import cn.ucai.chatuidemo.domain.User;
 import com.squareup.picasso.Picasso;
 
@@ -32,6 +34,20 @@ public class UserUtils {
         }
         return user;
     }
+
+	/**
+	 * 根据username获取相应user，由于demo没有真实的用户数据，这里给的模拟的数据；
+	 * @param username
+	 * @return
+	 */
+	public static UserAvatar getAppUserInfo(String username){
+		UserAvatar user = SuperWeChatApplication.getInstance().getUserMap().get(username);
+		if(user == null){
+			user = new UserAvatar(username);
+		}
+
+		return user;
+	}
     
     /**
      * 设置用户头像
@@ -89,6 +105,22 @@ public class UserUtils {
     		textView.setText(username);
     	}
     }
+	/**
+	 * 设置好友用户昵称
+	 */
+	public static void setAppUserNick(String username,TextView textView){
+		UserAvatar user = getAppUserInfo(username);
+		if(user != null){
+			if (user.getMUserNick() != null) {
+				textView.setText(user.getMUserNick());
+			} else {
+				textView.setText(username);
+			}
+
+		}else{
+			textView.setText(username);
+		}
+	}
     
     /**
      * 设置当前用户昵称
