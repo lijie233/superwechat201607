@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.animation.AlphaAnimation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,9 +25,10 @@ import cn.ucai.chatuidemo.task.DownloadContactListTask;
  *
  */
 public class SplashActivity extends BaseActivity {
+	private static final String TAG = SplashActivity.class.getSimpleName();
 	private RelativeLayout rootLayout;
 	private TextView versionText;
-	
+
 	private static final int sleepTime = 2000;
 
 	@Override
@@ -58,12 +60,18 @@ public class SplashActivity extends BaseActivity {
 					EMChatManager.getInstance().loadAllConversations();
 
 					String username = SuperWeChatApplication.getInstance().getUserName();
+					Log.e(TAG,"username="+username);
 					UserDao dao = new UserDao(SplashActivity.this);
 					UserAvatar user = dao.getUserAvatar(username);
-
+					Log.e(TAG,"user="+user);
 					SuperWeChatApplication.getInstance().setUser(user);
 					SuperWeChatApplication.currentUserNick = user.getMUserNick();
-					new DownloadContactListTask(SplashActivity.this,username).excute();
+					Log.e(TAG,"user.getMUserNick()="+user.getMUserNick());
+
+					new DownloadContactListTask(SplashActivity.this,username).execute();
+
+
+
 					long costTime = System.currentTimeMillis() - start;
 					//等待sleeptime时长
 					if (sleepTime - costTime > 0) {
@@ -88,7 +96,7 @@ public class SplashActivity extends BaseActivity {
 		}).start();
 
 	}
-	
+
 	/**
 	 * 获取当前应用程序的版本号
 	 */

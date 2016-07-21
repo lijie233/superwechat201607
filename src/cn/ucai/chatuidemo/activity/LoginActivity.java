@@ -56,7 +56,7 @@ import cn.ucai.data.OkHttpUtils2;
  * 
  */
 public class LoginActivity extends BaseActivity {
-	private static final String TAG = "LoginActivity";
+	private static final String TAG = LoginActivity.class.getSimpleName();
 	public static final int REQUEST_CODE_SETNICK = 1;
 	private EditText usernameEditText;
 	private EditText passwordEditText;
@@ -85,7 +85,6 @@ public class LoginActivity extends BaseActivity {
 		passwordEditText = (EditText) findViewById(R.id.password);
 
 		setListener();
-
 		if (SuperWeChatApplication.getInstance().getUserName() != null) {
 			usernameEditText.setText(SuperWeChatApplication.getInstance().getUserName());
 		}
@@ -111,11 +110,9 @@ public class LoginActivity extends BaseActivity {
 		});
 	}
 
-
-
 	/**
 	 * 登录
-	 * 
+	 *
 	 * @param view
 	 */
 	public void login(View view) {
@@ -157,44 +154,9 @@ public class LoginActivity extends BaseActivity {
 				if (!progressShow) {
 					return;
 				}
+				loginAppServer();
 
-				loginAppSever();
 			}
-
-			private void loginAppSever() {
-				final OkHttpUtils2<String> utils = new OkHttpUtils2<String>();
-				utils.setRequestUrl(I.REQUEST_LOGIN)
-						.addParam(I.User.USER_NAME,currentUsername)
-						.addParam(I.User.PASSWORD,currentPassword)
-						.targetClass(String.class)
-						.execute(new OkHttpUtils2.OnCompleteListener<String>() {
-							@Override
-							public void onSuccess(String s) {
-								Result result=Utils.getResultFromJson(s, UserAvatar.class);
-								Log.e(TAG, "result+" + result);
-								if (result != null && result.isRetMsg()) {
-									UserAvatar user = (UserAvatar) result.getRetData();
-									if(user!=null) {
-										saveUserToDB(user);
-										loginSuccess(user);
-									}
-								} else {
-									pd.dismiss();
-									Toast.makeText(getApplicationContext(),
-											R.string.Login_failed+result.getRetCode(),Toast.LENGTH_SHORT).show();
-								}
-							}
-
-							@Override
-							public void onError(String error) {
-								Log.e(TAG, "error=" + error);
-								pd.dismiss();
-								DemoHXSDKHelper.getInstance().logout(true,null);
-								Toast.makeText(getApplicationContext(),R.string.Login_failed,Toast.LENGTH_LONG).show();
-							}
-						});
-			}
-
 
 			@Override
 			public void onProgress(int progress, String status) {
@@ -216,19 +178,60 @@ public class LoginActivity extends BaseActivity {
 		});
 	}
 
+	private void loginAppServer() {
+		final OkHttpUtils2<String> utils = new OkHttpUtils2<String>();
+		utils.setRequestUrl(I.REQUEST_LOGIN)
+				.addParam(I.User.USER_NAME,currentUsername)
+				.addParam(I.User.PASSWORD,currentPassword)
+				.targetClass(String.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<String>() {
+					@Override
+					public void onSuccess(String s) {
+						Log.e(TAG,"s="+s);
+						Result result = Utils.getResultFromJson(s,UserAvatar.class);
+						Log.e(TAG,"result="+result);
+						if (result!=null && result.isRetMsg()){
+							UserAvatar user = (UserAvatar) result.getRetData();
+							Log.e(TAG,"user="+user);
+							if (user!=null) {
+								saveUserToDB(user);
+								loginSuccess(user);
+							}
+						}else{
+							pd.dismiss();
+							Toast.makeText(getApplicationContext(),
+									R.string.Login_failed+
+											Utils.getResourceString(LoginActivity.this,result.getRetCode()),
+									Toast.LENGTH_LONG).show();
+						}
+					}
+
+					@Override
+					public void onError(String error) {
+						Log.e(TAG,"error="+error);
+						pd.dismiss();
+						DemoHXSDKHelper.getInstance().logout(true,null);
+						Toast.makeText(getApplicationContext(), R.string.Login_failed, Toast.LENGTH_LONG).show();
+					}
+				});
+	}
+
 	private void saveUserToDB(UserAvatar user) {
-			// 存入db
-			UserDao dao = new UserDao(LoginActivity.this);
-			dao.saveUserAvatar(user);
+		UserDao dao = new UserDao(LoginActivity.this);
+		dao.saveUserAvatar(user);
 
 	}
-	private void loginSuccess(UserAvatar user) {
+
+	private void loginSuccess(UserAvatar user){
 		// 登陆成功，保存用户名密码
 		SuperWeChatApplication.getInstance().setUserName(currentUsername);
 		SuperWeChatApplication.getInstance().setPassword(currentPassword);
 		SuperWeChatApplication.getInstance().setUser(user);
-		SuperWeChatApplication.currentUserNick=user.getMUserNick();
-		new DownloadContactListTask(LoginActivity.this,currentUsername).excute();
+		SuperWeChatApplication.currentUserNick = user.getMUserNick();
+		Log.e(TAG,"user.getMUserNick()"+user.getMUserNick());
+		new DownloadContactListTask(LoginActivity.this,currentUsername).execute();
+
+
 		try {
 			// ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
 			// ** manually load all local groups and
@@ -248,7 +251,6 @@ public class LoginActivity extends BaseActivity {
 			});
 			return;
 		}
-
 		// 更新当前用户的nickname 此方法的作用是在ios离线推送时能够显示用户nick
 		boolean updatenick = EMChatManager.getInstance().updateCurrentUserNick(
 				SuperWeChatApplication.currentUserNick.trim());
@@ -265,6 +267,7 @@ public class LoginActivity extends BaseActivity {
 
 		finish();
 	}
+
 	private void initializeContacts() {
 		Map<String, User> userlist = new HashMap<String, User>();
 		// 添加user"申请与通知"
@@ -282,7 +285,7 @@ public class LoginActivity extends BaseActivity {
 		groupUser.setNick(strGroup);
 		groupUser.setHeader("");
 		userlist.put(Constant.GROUP_USERNAME, groupUser);
-		
+
 //		// 添加"Robot"
 //		User robotUser = new User();
 //		String strRobot = getResources().getString(R.string.robot_chat);
@@ -290,18 +293,18 @@ public class LoginActivity extends BaseActivity {
 //		robotUser.setNick(strRobot);
 //		robotUser.setHeader("");
 //		userlist.put(Constant.CHAT_ROBOT, robotUser);
-		
+
 		// 存入内存
-		((DemoHXSDKHelper) HXSDKHelper.getInstance()).setContactList(userlist);
+		((DemoHXSDKHelper)HXSDKHelper.getInstance()).setContactList(userlist);
 		// 存入db
 		UserDao dao = new UserDao(LoginActivity.this);
 		List<User> users = new ArrayList<User>(userlist.values());
 		dao.saveContactList(users);
 	}
-	
+
 	/**
 	 * 注册
-	 * 
+	 *
 	 * @param view
 	 */
 	public void register(View view) {
