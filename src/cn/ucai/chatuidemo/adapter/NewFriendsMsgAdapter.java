@@ -32,9 +32,18 @@ import android.widget.Toast;
 
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
+
+import cn.ucai.I;
+import cn.ucai.bean.Result;
+import cn.ucai.bean.UserAvatar;
 import cn.ucai.chatuidemo.R;
+import cn.ucai.chatuidemo.SuperWeChatApplication;
 import cn.ucai.chatuidemo.db.InviteMessgeDao;
 import cn.ucai.chatuidemo.domain.InviteMessage;
+import cn.ucai.chatuidemo.domain.User;
+import cn.ucai.chatuidemo.utils.UserUtils;
+import cn.ucai.chatuidemo.utils.Utils;
+import cn.ucai.data.OkHttpUtils2;
 
 public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 
@@ -82,7 +91,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 			}
 			
 			holder.reason.setText(msg.getReason());
-			holder.name.setText(msg.getFrom());
+			//holder.name.setText(msg.getFrom());
 			// holder.time.setText(DateUtils.getTimestampString(new
 			// Date(msg.getTime())));
 			if (msg.getStatus() == InviteMessage.InviteMesageStatus.BEAGREED) {
@@ -123,6 +132,32 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 			}
 
 			// 设置用户头像
+			UserUtils.setAppUserAvatar(context, msg.getFrom(), holder.avator);
+			final OkHttpUtils2<String> utils = new OkHttpUtils2<String>();
+			utils.setRequestUrl(I.REQUEST_FIND_USER)
+					.addParam(I.User.USER_NAME,msg.getFrom())
+					.targetClass(String.class)
+					.execute(new OkHttpUtils2.OnCompleteListener<String>() {
+						@Override
+						public void onSuccess(String s) {
+							Result result = Utils.getResultFromJson(s, UserAvatar.class);
+							if (result != null && result.isRetMsg()) {
+								UserAvatar user = (UserAvatar) result.getRetData();
+								if (user != null) {
+									UserUtils.setAppUserNick(user, holder.name);
+								} else {
+									holder.name.setText(msg.getFrom());
+								}
+							} else {
+								holder.name.setText(msg.getFrom());
+							}
+						}
+
+						@Override
+						public void onError(String error) {
+
+						}
+					});
 		}
 
 		return convertView;
@@ -132,7 +167,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 	 * 同意好友请求或者群申请
 	 * 
 	 * @param button
-	 * @param username
+	 * @param
 	 */
 	private void acceptInvitation(final Button button, final InviteMessage msg) {
 		final ProgressDialog pd = new ProgressDialog(context);
@@ -173,7 +208,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 						@Override
 						public void run() {
 							pd.dismiss();
-							Toast.makeText(context, str3 + e.getMessage(), 1).show();
+							Toast.makeText(context, str3 + e.getMessage(), Toast.LENGTH_LONG).show();
 						}
 					});
 

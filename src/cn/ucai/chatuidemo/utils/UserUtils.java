@@ -77,7 +77,7 @@ public class UserUtils {
 				.append(I.EQUALS).append(I.REQUEST_DOWNLOAD_AVATAR)
 				.append(I.AND)
 				.append(I.NAME_OR_HXID)
-				.append(I.EQUALS).append(username)
+				.append(I.EQUALS).append(username).append(I.AND)
 				.append(I.AVATAR_TYPE).append(I.EQUALS).append(I.AVATAR_TYPE_USER_PATH);
 		return path.toString();
 	}
@@ -108,16 +108,43 @@ public class UserUtils {
     		textView.setText(username);
     	}
     }
+
+
+	/**
+	 * 设置用户好友昵称
+	 * @param username
+	 * @param textView
+     */
 	public static void setAppUserNick(String username,TextView textView){
-		User user = getUserInfo(username);
+		UserAvatar user = getAppUserInfo(username);
 		if(user != null){
-			textView.setText(user.getNick());
+			if (user.getMUserNick() != null) {
+				textView.setText(user.getMUserNick());
+			}else{
+				textView.setText(username);
+			}
+
 		}else{
 			textView.setText(username);
 		}
 	}
-    
-    /**
+	/**
+	 * 设置用户好友昵称
+	 * @param user
+	 * @param textView
+	 */
+	public static void setAppUserNick(UserAvatar user,TextView textView){
+		if(user != null){
+			if (user.getMUserNick() != null) {
+				textView.setText(user.getMUserNick());
+			} else {
+				textView.setText(user.getMUserName());
+			}
+
+		}
+	}
+
+	/**
      * 设置当前用户昵称
      */
     public static void setCurrentUserNick(TextView textView){
