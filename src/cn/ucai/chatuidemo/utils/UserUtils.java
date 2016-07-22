@@ -93,7 +93,7 @@ public class UserUtils {
 			Picasso.with(context).load(R.drawable.default_avatar).into(imageView);
 		}
 	}
-    
+
     /**
      * 设置用户昵称
      */
@@ -105,18 +105,10 @@ public class UserUtils {
     		textView.setText(username);
     	}
     }
-	/**
-	 * 设置好友用户昵称
-	 */
 	public static void setAppUserNick(String username,TextView textView){
-		UserAvatar user = getAppUserInfo(username);
+		User user = getUserInfo(username);
 		if(user != null){
-			if (user.getMUserNick() != null) {
-				textView.setText(user.getMUserNick());
-			} else {
-				textView.setText(username);
-			}
-
+			textView.setText(user.getNick());
 		}else{
 			textView.setText(username);
 		}
@@ -131,7 +123,17 @@ public class UserUtils {
     		textView.setText(user.getNick());
     	}
     }
-    
+	/**
+	 * 设置当前用户昵称
+	 */
+	public static void setAppCurrentUserNick(TextView textView){
+		UserAvatar user = SuperWeChatApplication.getInstance().getUser();
+		if (textView != null) {
+			textView.setText(user.getMUserNick());
+		} else {
+			textView.setText(user.getMUserName());
+		}
+	}
     /**
      * 保存或更新某个用户
      * @param
