@@ -123,7 +123,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 					holder.name.setText(username);
 				}
 			}else{
-				UserUtils.setUserNick(username, holder.name);
+				UserUtils.setAppUserNick(username, holder.name);
 			}
 		}
 
