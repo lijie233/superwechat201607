@@ -602,7 +602,6 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 									sendStickyBroadcast(new Intent("update_contac_list"));
 								}
 							}
-
 							@Override
 							public void onError(String error) {
 

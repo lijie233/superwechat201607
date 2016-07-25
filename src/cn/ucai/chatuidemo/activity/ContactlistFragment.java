@@ -49,17 +49,24 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import cn.ucai.I;
 import cn.ucai.applib.controller.HXSDKHelper;
 
 import com.easemob.chat.EMContactManager;
+
+import cn.ucai.bean.Result;
+import cn.ucai.bean.UserAvatar;
 import cn.ucai.chatuidemo.Constant;
 import cn.ucai.chatuidemo.DemoHXSDKHelper;
 import cn.ucai.chatuidemo.R;
+import cn.ucai.chatuidemo.SuperWeChatApplication;
 import cn.ucai.chatuidemo.adapter.ContactAdapter;
 import cn.ucai.chatuidemo.db.InviteMessgeDao;
 import cn.ucai.chatuidemo.db.UserDao;
 import cn.ucai.chatuidemo.domain.User;
 import cn.ucai.chatuidemo.widget.Sidebar;
+import cn.ucai.data.OkHttpUtils2;
+
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
 
@@ -351,7 +358,7 @@ public class ContactlistFragment extends Fragment {
 					getActivity().runOnUiThread(new Runnable() {
 						public void run() {
 							pd.dismiss();
-							Toast.makeText(getActivity(), st2 + e.getMessage(), 1).show();
+							Toast.makeText(getActivity(), st2 + e.getMessage(), Toast.LENGTH_SHORT).show();
 						}
 					});
 
@@ -359,7 +366,27 @@ public class ContactlistFragment extends Fragment {
 
 			}
 		}).start();
+		String currentUserName = SuperWeChatApplication.getInstance().getUserName();
+		final OkHttpUtils2<Result> utils = new OkHttpUtils2<Result>();
+		utils.setRequestUrl(I.REQUEST_DELETE_CONTACT).addParam(I.Contact.USER_NAME,currentUserName)
+				.addParam(I.Contact.CU_NAME,tobeDeleteUser.getUsername())
+				.targetClass(Result.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
+					@Override
+					public void onSuccess(Result result) {
+						if (result.isRetMsg()) {
+							((DemoHXSDKHelper) HXSDKHelper.getInstance()).getContactList().remove(tobeDeleteUser.getUsername());
+							UserAvatar u = SuperWeChatApplication.getInstance().getUserMap().get(tobeDeleteUser.getUsername());
+							SuperWeChatApplication.getInstance().getUserList().remove(u);
+							SuperWeChatApplication.getInstance().getUserMap().remove(tobeDeleteUser.getUsername());
+							getActivity().sendStickyBroadcast(new Intent("update_contac_list"));
+						}
+					}
 
+					@Override
+					public void onError(String error) {
+					}
+				});
 	}
 
 	/**
@@ -381,7 +408,7 @@ public class ContactlistFragment extends Fragment {
 					getActivity().runOnUiThread(new Runnable() {
 						public void run() {
 							pd.dismiss();
-							Toast.makeText(getActivity(), st2, 0).show();
+							Toast.makeText(getActivity(), st2, Toast.LENGTH_LONG).show();
 							refresh();
 						}
 					});
@@ -390,7 +417,7 @@ public class ContactlistFragment extends Fragment {
 					getActivity().runOnUiThread(new Runnable() {
 						public void run() {
 							pd.dismiss();
-							Toast.makeText(getActivity(), st3, 0).show();
+							Toast.makeText(getActivity(), st3, Toast.LENGTH_SHORT).show();
 						}
 					});
 				}
