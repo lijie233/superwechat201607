@@ -569,7 +569,7 @@ public class MainActivity extends BaseActivity implements EMEventListener {
 
 							@Override
 							public void onError(String error) {
-
+								Log.e("main", "error+" + error);
 							}
 						});
 			}
