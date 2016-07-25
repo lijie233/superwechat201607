@@ -122,8 +122,6 @@ public class AddContactActivity extends BaseActivity{
 							tvNothing.setVisibility(View.VISIBLE);
 						}
 					});
-
-			
 		} 
 	}	
 	
