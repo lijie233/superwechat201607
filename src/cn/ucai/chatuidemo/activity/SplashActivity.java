@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -13,12 +14,17 @@ import android.widget.TextView;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
 
+import cn.ucai.I;
+import cn.ucai.bean.Result;
 import cn.ucai.bean.UserAvatar;
 import cn.ucai.chatuidemo.DemoHXSDKHelper;
 import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.SuperWeChatApplication;
 import cn.ucai.chatuidemo.db.UserDao;
 import cn.ucai.chatuidemo.task.DownloadContactListTask;
+import cn.ucai.chatuidemo.utils.UserUtils;
+import cn.ucai.chatuidemo.utils.Utils;
+import cn.ucai.data.OkHttpUtils2;
 
 /**
  * 开屏页
@@ -63,7 +69,30 @@ public class SplashActivity extends BaseActivity {
 					UserDao dao = new UserDao(SplashActivity.this);
 					UserAvatar user = dao.getUserAvatar(username);
 					Log.e(TAG,"user="+user);
-					if (user != null) {
+					if (user == null) {
+						final OkHttpUtils2<String> utils = new OkHttpUtils2<String>();
+						utils.setRequestUrl(I.REQUEST_FIND_USER)
+								.addParam(I.User.USER_NAME,username)
+								.targetClass(String.class)
+								.execute(new OkHttpUtils2.OnCompleteListener<String>() {
+									@Override
+									public void onSuccess(String s) {
+										Result result = Utils.getResultFromJson(s,UserAvatar.class);
+										if (result!=null && result.isRetMsg()){
+											UserAvatar user = (UserAvatar) result.getRetData();
+											if (user!=null) {
+												SuperWeChatApplication.getInstance().setUser(user);
+												SuperWeChatApplication.currentUserNick = user.getMUserNick();
+											}
+										}
+									}
+									@Override
+									public void onError(String error) {
+
+									}
+								});
+
+					}else {
 						SuperWeChatApplication.getInstance().setUser(user);
 						SuperWeChatApplication.currentUserNick = user.getMUserNick();
 					}
