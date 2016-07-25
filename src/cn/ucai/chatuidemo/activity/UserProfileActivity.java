@@ -34,6 +34,7 @@ import cn.ucai.bean.UserAvatar;
 import cn.ucai.chatuidemo.DemoHXSDKHelper;
 import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.SuperWeChatApplication;
+import cn.ucai.chatuidemo.db.UserDao;
 import cn.ucai.chatuidemo.domain.User;
 import cn.ucai.chatuidemo.utils.UserUtils;
 import cn.ucai.chatuidemo.utils.Utils;
@@ -105,6 +106,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 			break;
 		case R.id.rl_nickname:
 			final EditText editText = new EditText(this);
+			editText.setText(SuperWeChatApplication.getInstance().getUser().getMUserNick());
 			new AlertDialog.Builder(this).setTitle(R.string.setting_nickname).setIcon(android.R.drawable.ic_dialog_info).setView(editText)
 					.setPositiveButton(R.string.dl_ok, new DialogInterface.OnClickListener() {
 
@@ -115,6 +117,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 								Toast.makeText(UserProfileActivity.this, getString(R.string.toast_nick_not_isnull), Toast.LENGTH_SHORT).show();
 								return;
 							}
+
 							updateAppNick(nickString);
 						}
 					}).setNegativeButton(R.string.dl_cancel, null).show();
@@ -138,6 +141,10 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 						if (result!=null && result.isRetMsg()){
 							UserAvatar user = (UserAvatar) result.getRetData();
 							if (user!=null) {
+								SuperWeChatApplication.getInstance().setUser(user);
+								SuperWeChatApplication.getInstance().currentUserNick = user.getMUserNick();
+								UserDao dao = new UserDao(UserProfileActivity.this);
+								dao.updateUserNick(user);
 								updateRemoteNick(nickString);
 							}
 						}else{
