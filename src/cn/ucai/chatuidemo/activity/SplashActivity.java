@@ -22,6 +22,7 @@ import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.SuperWeChatApplication;
 import cn.ucai.chatuidemo.db.UserDao;
 import cn.ucai.chatuidemo.task.DownloadContactListTask;
+import cn.ucai.chatuidemo.task.DownloadGroupListTask;
 import cn.ucai.chatuidemo.utils.UserUtils;
 import cn.ucai.chatuidemo.utils.Utils;
 import cn.ucai.data.OkHttpUtils2;
@@ -97,6 +98,7 @@ public class SplashActivity extends BaseActivity {
 						SuperWeChatApplication.currentUserNick = user.getMUserNick();
 					}
 					new DownloadContactListTask(SplashActivity.this,username).execute();
+					new DownloadGroupListTask(SplashActivity.this,username).execute();
 					long costTime = System.currentTimeMillis() - start;
 					//等待sleeptime时长
 					if (sleepTime - costTime > 0) {

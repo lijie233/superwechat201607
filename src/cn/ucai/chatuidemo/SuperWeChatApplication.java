@@ -24,6 +24,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import cn.ucai.bean.GroupAvatar;
 import cn.ucai.bean.UserAvatar;
 
 public class SuperWeChatApplication extends Application {
@@ -115,9 +116,14 @@ public class SuperWeChatApplication extends Application {
 		// 先调用sdk logout，在清理app中自己的数据
 	    hxSDKHelper.logout(isGCM,emCallBack);
 	}
+	/**全局的当前登录用户信息*/
 	private UserAvatar user;
+	/**全局的当前登录用户的好友集合*/
 	private List<UserAvatar> userList = new ArrayList<UserAvatar>();
+	/**全局的当前登录用户的好友Map集合*/
 	private Map<String, UserAvatar> userMap = new HashMap<String, UserAvatar>();
+	/**全局的当前登录用户的群组集合*/
+	private List<GroupAvatar> groupList = new ArrayList<GroupAvatar>();
 	public UserAvatar getUser() {
 		return user;
 	}
@@ -141,5 +147,13 @@ public class SuperWeChatApplication extends Application {
 
 	public void setUserMap(Map<String, UserAvatar> userMap) {
 		this.userMap = userMap;
+	}
+
+	public List<GroupAvatar> getGroupList() {
+		return groupList;
+	}
+
+	public void setGroupList(List<GroupAvatar> groupList) {
+		this.groupList = groupList;
 	}
 }
