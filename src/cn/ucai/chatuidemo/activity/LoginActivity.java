@@ -52,6 +52,7 @@ import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.db.UserDao;
 import cn.ucai.chatuidemo.domain.User;
 import cn.ucai.chatuidemo.task.DownloadContactListTask;
+import cn.ucai.chatuidemo.task.DownloadGroupListTask;
 import cn.ucai.chatuidemo.utils.CommonUtils;
 import cn.ucai.chatuidemo.utils.UserUtils;
 import cn.ucai.chatuidemo.utils.Utils;
@@ -263,7 +264,7 @@ public class LoginActivity extends BaseActivity {
 		SuperWeChatApplication.currentUserNick = user.getMUserNick();
 		Log.e(TAG,"user.getMUserNick()"+user.getMUserNick());
 		new DownloadContactListTask(LoginActivity.this,currentUsername).execute();
-
+		new DownloadGroupListTask(LoginActivity.this, currentUsername).execute();
 
 		try {
 			// ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
