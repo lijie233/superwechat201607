@@ -230,15 +230,12 @@ public class LoginActivity extends BaseActivity {
 				.doInBackground(new Callback() {
 					@Override
 					public void onFailure(Request request, IOException e) {
-
 					}
-
 					@Override
 					public void onResponse(Response response) throws IOException {
 						byte[] data=response.body().bytes();
 						final String avatarUrl = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getUserProfileManager().uploadUserAvatar(data);
 						Log.e(TAG, "avatarUrl=" + avatarUrl);
-
 					}
 				})
 				.execute(new OkHttpUtils2.OnCompleteListener<Message>() {
@@ -246,7 +243,6 @@ public class LoginActivity extends BaseActivity {
 					public void onSuccess(Message result) {
 						Log.e(TAG, "result=" + result);
 					}
-
 					@Override
 					public void onError(String error) {
 						Log.e(TAG, "error=" + error);
