@@ -205,6 +205,7 @@ public class LoginActivity extends BaseActivity {
 									Toast.LENGTH_LONG).show();
 						}
 					}
+
 					@Override
 					public void onError(String error) {
 						Log.e(TAG,"error="+error);
