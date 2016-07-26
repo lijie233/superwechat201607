@@ -71,7 +71,7 @@ public class UserUtils {
 		}
 	}
 
-	private static String getUserAvatarPath(String username) {
+	public static String getUserAvatarPath(String username) {
 		StringBuilder path = new StringBuilder(I.SERVER_ROOT);
 		path.append(I.QUESTION).append(I.KEY_REQUEST)
 				.append(I.EQUALS).append(I.REQUEST_DOWNLOAD_AVATAR)

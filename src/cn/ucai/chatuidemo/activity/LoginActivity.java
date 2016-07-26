@@ -13,6 +13,7 @@
  */
 package cn.ucai.chatuidemo.activity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -37,6 +39,9 @@ import cn.ucai.I;
 import cn.ucai.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import cn.ucai.bean.Result;
 import cn.ucai.bean.UserAvatar;
@@ -48,6 +53,7 @@ import cn.ucai.chatuidemo.db.UserDao;
 import cn.ucai.chatuidemo.domain.User;
 import cn.ucai.chatuidemo.task.DownloadContactListTask;
 import cn.ucai.chatuidemo.utils.CommonUtils;
+import cn.ucai.chatuidemo.utils.UserUtils;
 import cn.ucai.chatuidemo.utils.Utils;
 import cn.ucai.data.OkHttpUtils2;
 
@@ -194,6 +200,7 @@ public class LoginActivity extends BaseActivity {
 							UserAvatar user = (UserAvatar) result.getRetData();
 							Log.e(TAG,"user="+user);
 							if (user!=null) {
+								downloadUserAvatar();
 								saveUserToDB(user);
 								loginSuccess(user);
 							}
@@ -216,6 +223,36 @@ public class LoginActivity extends BaseActivity {
 				});
 	}
 
+	private void downloadUserAvatar() {
+		final OkHttpUtils2<Message> utils = new OkHttpUtils2<Message>();
+		utils.url(UserUtils.getUserAvatarPath(currentUsername))
+				.targetClass(Message.class)
+				.doInBackground(new Callback() {
+					@Override
+					public void onFailure(Request request, IOException e) {
+
+					}
+
+					@Override
+					public void onResponse(Response response) throws IOException {
+						byte[] data=response.body().bytes();
+						final String avatarUrl = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getUserProfileManager().uploadUserAvatar(data);
+						Log.e(TAG, "avatarUrl=" + avatarUrl);
+
+					}
+				})
+				.execute(new OkHttpUtils2.OnCompleteListener<Message>() {
+					@Override
+					public void onSuccess(Message result) {
+						Log.e(TAG, "result=" + result);
+					}
+
+					@Override
+					public void onError(String error) {
+						Log.e(TAG, "error=" + error);
+					}
+				});
+	}
 	private void saveUserToDB(UserAvatar user) {
 		UserDao dao = new UserDao(LoginActivity.this);
 		dao.saveUserAvatar(user);

@@ -22,11 +22,16 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.easemob.chat.EMGroupManager;
+
+import cn.ucai.I;
 import cn.ucai.chatuidemo.R;
+import cn.ucai.chatuidemo.listener.OnSetAvatarListener;
+
 import com.easemob.exceptions.EaseMobException;
 
 public class NewGroupActivity extends BaseActivity {
@@ -37,6 +42,8 @@ public class NewGroupActivity extends BaseActivity {
 	private CheckBox memberCheckbox;
 	private LinearLayout openInviteContainer;
 
+	private ImageView avatar;
+	private OnSetAvatarListener mOnSetAvatarListener;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,7 +53,6 @@ public class NewGroupActivity extends BaseActivity {
 		checkBox = (CheckBox) findViewById(R.id.cb_public);
 		memberCheckbox = (CheckBox) findViewById(R.id.cb_member_inviter);
 		openInviteContainer = (LinearLayout) findViewById(R.id.ll_open_invite);
-		
 		checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override

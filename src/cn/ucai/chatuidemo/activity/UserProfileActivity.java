@@ -95,7 +95,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		if (username == null||username.equals(EMChatManager.getInstance().getCurrentUser())) {
 			tvUsername.setText(EMChatManager.getInstance().getCurrentUser());
 			UserUtils.setAppCurrentUserNick(tvNickName);
-			UserUtils.setAppUserAvatar(this,EMChatManager.getInstance().getCurrentUser(),headAvatar);
+			UserUtils.setCurrentUserAvatar(this,headAvatar);
 		}  else {
 			tvUsername.setText(username);
 			UserUtils.setAppUserNick(username, tvNickName);
@@ -231,7 +231,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 
 
 	private void updateRemoteNick(final String nickName) {
-		dialog = ProgressDialog.show(this, getString(R.string.dl_update_nick), getString(R.string.dl_waiting));
+
 		new Thread(new Runnable() {
 
 			@Override
@@ -288,6 +288,8 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		mOnSetAvatarListener.setAvatar(requestCode, data, headAvatar);
 		if (requestCode==OnSetAvatarListener.REQUEST_CROP_PHOTO) {
 			Log.e(TAG,"upload avatar to app server");
+			dialog = ProgressDialog.show(this, getString(R.string.dl_update_nick), getString(R.string.dl_waiting));
+			dialog.show();
 			uploadUserAvatar();
 		}
 	}
@@ -306,14 +308,20 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 					@Override
 					public void onSuccess(Result result) {
 						Log.e(TAG,"result="+result);
-						if (result.isRetMsg()){
+						if (result.isRetMsg()) {
+							dialog.dismiss();
 							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_success), Toast.LENGTH_SHORT)
+									.show();
+						} else {
+							dialog.dismiss();
+							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_fail), Toast.LENGTH_SHORT)
 									.show();
 						}
 					}
 					@Override
 					public void onError(String error) {
 						Log.e(TAG,"upload avatar error..."+error);
+						dialog.dismiss();
 						Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_fail), Toast.LENGTH_SHORT)
 								.show();
 					}
@@ -374,7 +382,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 			}
 		}).start();
 
-		dialog.show();
+
 	}
 
 
