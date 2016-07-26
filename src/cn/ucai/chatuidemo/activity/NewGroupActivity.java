@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 
 import cn.ucai.I;
@@ -44,6 +45,8 @@ public class NewGroupActivity extends BaseActivity {
 
 	private ImageView avatar;
 	private OnSetAvatarListener mOnSetAvatarListener;
+	private String avatarName;
+	private static int CREATE_GROUP=100;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,6 +56,7 @@ public class NewGroupActivity extends BaseActivity {
 		checkBox = (CheckBox) findViewById(R.id.cb_public);
 		memberCheckbox = (CheckBox) findViewById(R.id.cb_member_inviter);
 		openInviteContainer = (LinearLayout) findViewById(R.id.ll_open_invite);
+		avatar = (ImageView) findViewById(R.id.iv_avatar);
 		checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
@@ -62,6 +66,12 @@ public class NewGroupActivity extends BaseActivity {
 				}else{
 					openInviteContainer.setVisibility(View.VISIBLE);
 				}
+			}
+		});
+		findViewById(R.id.layout_group_icon).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mOnSetAvatarListener = new OnSetAvatarListener(NewGroupActivity.this, R.id.layout_group_icon, getAvatarName(), I.AVATAR_TYPE_GROUP_PATH);
 			}
 		});
 	}
@@ -78,7 +88,7 @@ public class NewGroupActivity extends BaseActivity {
 			startActivity(intent);
 		} else {
 			// 进通讯录选人
-			startActivityForResult(new Intent(this, GroupPickContactsActivity.class).putExtra("groupName", name), 0);
+			startActivityForResult(new Intent(this, GroupPickContactsActivity.class).putExtra("groupName", name), CREATE_GROUP);
 		}
 	}
 	
@@ -87,7 +97,14 @@ public class NewGroupActivity extends BaseActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		String st1 = getResources().getString(R.string.Is_to_create_a_group_chat);
 		final String st2 = getResources().getString(R.string.Failed_to_create_groups);
-		if (resultCode == RESULT_OK) {
+		if (resultCode != RESULT_OK) {
+			return;
+		}
+		mOnSetAvatarListener.setAvatar(requestCode,data,avatar);
+		if (requestCode == OnSetAvatarListener.REQUEST_CROP_PHOTO) {
+
+		}
+		if (requestCode == CREATE_GROUP) {
 			//新建群组
 			progressDialog = new ProgressDialog(this);
 			progressDialog.setMessage(st1);
@@ -101,14 +118,15 @@ public class NewGroupActivity extends BaseActivity {
 					String groupName = groupNameEditText.getText().toString().trim();
 					String desc = introductionEditText.getText().toString();
 					String[] members = data.getStringArrayExtra("newmembers");
+					EMGroup group;
 					try {
 						if(checkBox.isChecked()){
 							//创建公开群，此种方式创建的群，可以自由加入
 							//创建公开群，此种方式创建的群，用户需要申请，等群主同意后才能加入此群
-						    EMGroupManager.getInstance().createPublicGroup(groupName, desc, members, true,200);
+							group= EMGroupManager.getInstance().createPublicGroup(groupName, desc, members, true,200);
 						}else{
 							//创建不公开群
-						    EMGroupManager.getInstance().createPrivateGroup(groupName, desc, members, memberCheckbox.isChecked(),200);
+							group= EMGroupManager.getInstance().createPrivateGroup(groupName, desc, members, memberCheckbox.isChecked(),200);
 						}
 						runOnUiThread(new Runnable() {
 							public void run() {
@@ -121,7 +139,7 @@ public class NewGroupActivity extends BaseActivity {
 						runOnUiThread(new Runnable() {
 							public void run() {
 								progressDialog.dismiss();
-								Toast.makeText(NewGroupActivity.this, st2 + e.getLocalizedMessage(), 1).show();
+								Toast.makeText(NewGroupActivity.this, st2 + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
 							}
 						});
 					}
@@ -133,5 +151,10 @@ public class NewGroupActivity extends BaseActivity {
 
 	public void back(View view) {
 		finish();
+	}
+
+	public String getAvatarName() {
+		avatarName = String.valueOf(System.currentTimeMillis());
+		return avatarName;
 	}
 }
