@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import cn.ucai.I;
 import cn.ucai.applib.controller.HXSDKHelper;
+import cn.ucai.bean.MemberUserAvatar;
 import cn.ucai.bean.UserAvatar;
 import cn.ucai.chatuidemo.DemoHXSDKHelper;
 
@@ -14,6 +15,8 @@ import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.SuperWeChatApplication;
 import cn.ucai.chatuidemo.domain.User;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
 
 public class UserUtils {
     /**
@@ -48,8 +51,19 @@ public class UserUtils {
 
 		return user;
 	}
-    
-    /**
+
+	public static MemberUserAvatar getAppMemberInfo(String hxid, String username) {
+		MemberUserAvatar member = null;
+		HashMap<String, MemberUserAvatar> members = SuperWeChatApplication.getInstance().getMemberMap().get(hxid);
+		if (members == null || members.size() < 0) {
+			return null;
+		} else {
+			member = members.get(username);
+		}
+		return member;
+	}
+
+	/**
      * 设置用户头像
      * @param username
      */
@@ -195,5 +209,13 @@ public class UserUtils {
 		}
 		((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveContact(newUser);
 	}
-    
+
+	public static void setAppMemberNick(String hxid, String username, TextView textView) {
+		MemberUserAvatar member = getAppMemberInfo(hxid, username);
+		if (member != null && member.getMUserNick() != null) {
+			textView.setText(member.getMUserNick());
+		} else {
+			textView.setText(username);
+		}
+	}
 }
