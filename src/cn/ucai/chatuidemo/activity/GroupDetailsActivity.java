@@ -41,9 +41,16 @@ import android.widget.Toast;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
+
+import cn.ucai.I;
+import cn.ucai.bean.GroupAvatar;
+import cn.ucai.bean.Result;
 import cn.ucai.chatuidemo.R;
 import cn.ucai.chatuidemo.utils.UserUtils;
+import cn.ucai.chatuidemo.utils.Utils;
 import cn.ucai.chatuidemo.widget.ExpandGridView;
+import cn.ucai.data.OkHttpUtils2;
+
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
 import com.easemob.util.NetUtils;
@@ -431,8 +438,45 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 				}
 			}
 		}).start();
+		addGroupMembers(st6, groupId, newmembers);
 	}
 
+	private void addGroupMembers(final String st2, String hxid, String[] members) {
+		String memberArr = "";
+		for (String m : members) {
+			memberArr += m + ",";
+		}
+		memberArr=memberArr.substring(0, memberArr.length() - 1);
+		final OkHttpUtils2<String> utils = new OkHttpUtils2<String>();
+		utils.setRequestUrl(I.REQUEST_ADD_GROUP_MEMBERS)
+				.addParam(I.Member.GROUP_HX_ID,hxid)
+				.addParam(I.Member.USER_NAME,memberArr)
+				.targetClass(String.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<String>() {
+					@Override
+					public void onSuccess(String s) {
+						Result result = Utils.getResultFromJson(s, GroupAvatar.class);
+						GroupAvatar groupAvatar = (GroupAvatar) result.getRetData();
+						if (result != null && result.isRetMsg()) {
+							runOnUiThread(new Runnable() {
+								public void run() {
+									progressDialog.dismiss();
+									setResult(RESULT_OK);
+									finish();
+								}
+							});
+						} else {
+							progressDialog.dismiss();
+							Toast.makeText(GroupDetailsActivity.this, st2, Toast.LENGTH_SHORT).show();
+						}
+					}
+
+					@Override
+					public void onError(String error) {
+
+					}
+				});
+	}
 	@Override
 	public void onClick(View v) {
 		String st6 = getResources().getString(R.string.Is_unblock);
