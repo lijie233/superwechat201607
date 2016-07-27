@@ -12,6 +12,7 @@ import cn.ucai.bean.GroupAvatar;
 import cn.ucai.bean.Result;
 import cn.ucai.bean.UserAvatar;
 import cn.ucai.chatuidemo.SuperWeChatApplication;
+import cn.ucai.chatuidemo.activity.GroupDetailsActivity;
 import cn.ucai.chatuidemo.utils.Utils;
 import cn.ucai.data.OkHttpUtils2;
 
@@ -42,7 +43,10 @@ public class DownloadGroupListTask {
                         if (list!=null && list.size()>0){
                             Log.e(TAG,"list.size="+list.size());
                             SuperWeChatApplication.getInstance().setGroupList(list);
-                            mContext.sendStickyBroadcast(new Intent("update_contact_list"));
+                            for (GroupAvatar g : list) {
+                                SuperWeChatApplication.getInstance().getGroupMap().put(g.getMGroupHxid(),g);
+                            }
+                            mContext.sendStickyBroadcast(new Intent("update_group_list"));
                         }
                     }
                     @Override
