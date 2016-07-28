@@ -405,8 +405,28 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 				}
 			}
 		}).start();
+		deleteGroupFromApp();
 	}
 
+	private void deleteGroupFromApp() {
+		final GroupAvatar group = SuperWeChatApplication.getInstance().getGroupMap().get(groupId);
+		final OkHttpUtils2<Result> utils = new OkHttpUtils2<Result>();
+		utils.setRequestUrl(I.REQUEST_DELETE_GROUP)
+				.addParam(I.Group.GROUP_ID,String.valueOf(group.getMGroupId()))
+				.targetClass(Result.class)
+				.execute(new OkHttpUtils2.OnCompleteListener<Result>() {
+					@Override
+					public void onSuccess(Result result) {
+
+					}
+
+					@Override
+					public void onError(String error) {
+
+					}
+				});
+
+	}
 	/**
 	 * 增加群成员
 	 * 
@@ -704,7 +724,7 @@ public class GroupDetailsActivity extends BaseActivity implements OnClickListene
 								return;
 							}
 							EMLog.d("group", "remove user from group:" + username);
-							deleteMembersFromGroup(username);
+							//deleteMembersFromGroup(username);
 							deleteMembersFromAppGroup(username,false);
 						} else {
 							// 正常情况下点击user，可以进入用户详情或者聊天页面等等

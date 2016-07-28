@@ -156,7 +156,6 @@ public class ChatHistoryFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				query.getText().clear();
-
 			}
 		});
 
@@ -206,7 +205,7 @@ public class ChatHistoryFragment extends Fragment {
 	/**
 	 * 获取有聊天记录的users和groups
 	 * 
-	 * @param context
+	 * @param
 	 * @return
 	 */
 	private List<EMContact> loadUsersWithRecentChat() {
