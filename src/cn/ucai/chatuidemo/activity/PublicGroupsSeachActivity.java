@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +15,8 @@ import com.easemob.EMError;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import cn.ucai.chatuidemo.R;
+import cn.ucai.chatuidemo.utils.UserUtils;
+
 import com.easemob.exceptions.EaseMobException;
 
 public class PublicGroupsSeachActivity extends BaseActivity{
@@ -21,7 +24,7 @@ public class PublicGroupsSeachActivity extends BaseActivity{
     private EditText idET;
     private TextView nameText;
     public static EMGroup searchedGroup;
-
+    private ImageView avatar;
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -30,7 +33,7 @@ public class PublicGroupsSeachActivity extends BaseActivity{
         containerLayout = (RelativeLayout) findViewById(R.id.rl_searched_group);
         idET = (EditText) findViewById(R.id.et_search_id);
         nameText = (TextView) findViewById(R.id.name);
-        
+        avatar = (ImageView) findViewById(R.id.avatar);
         searchedGroup = null;
     }
     
@@ -58,6 +61,7 @@ public class PublicGroupsSeachActivity extends BaseActivity{
                             pd.dismiss();
                             containerLayout.setVisibility(View.VISIBLE);
                             nameText.setText(searchedGroup.getGroupName());
+                            UserUtils.setAppGroupAvatar(PublicGroupsSeachActivity.this,searchedGroup.getGroupId(),avatar);
                         }
                     });
                     
