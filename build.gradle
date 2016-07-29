@@ -43,4 +43,8 @@ android {
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
     }
+    lintOptions{
+        checkReleaseBuilds false
+        abortOnError false
+    }
 }
