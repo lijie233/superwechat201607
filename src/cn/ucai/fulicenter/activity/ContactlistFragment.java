@@ -62,7 +62,7 @@ import cn.ucai.bean.UserAvatar;
 import cn.ucai.fulicenter.Constant;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.adapter.ContactAdapter;
 import cn.ucai.fulicenter.db.InviteMessgeDao;
 import cn.ucai.fulicenter.db.UserDao;
@@ -368,7 +368,7 @@ public class ContactlistFragment extends Fragment {
 
 			}
 		}).start();
-		String currentUserName = SuperWeChatApplication.getInstance().getUserName();
+		String currentUserName = FuliCenterApplication.getInstance().getUserName();
 		final OkHttpUtils2<Result> utils = new OkHttpUtils2<Result>();
 		Log.e(TAG,"tobeDeleteUser.getUsername()="+tobeDeleteUser.getUsername());
 		utils.setRequestUrl(I.REQUEST_DELETE_CONTACT)
@@ -382,9 +382,9 @@ public class ContactlistFragment extends Fragment {
 						if (result.isRetMsg()) {
 							Log.e(TAG,"result remove user..");
 							((DemoHXSDKHelper) HXSDKHelper.getInstance()).getContactList().remove(tobeDeleteUser.getUsername());
-							UserAvatar u = SuperWeChatApplication.getInstance().getUserMap().get(tobeDeleteUser.getUsername());
-							SuperWeChatApplication.getInstance().getUserList().remove(u);
-							SuperWeChatApplication.getInstance().getUserMap().remove(tobeDeleteUser.getUsername());
+							UserAvatar u = FuliCenterApplication.getInstance().getUserMap().get(tobeDeleteUser.getUsername());
+							FuliCenterApplication.getInstance().getUserList().remove(u);
+							FuliCenterApplication.getInstance().getUserMap().remove(tobeDeleteUser.getUsername());
 							getActivity().sendStickyBroadcast(new Intent("update_contact_list"));
 						}
 					}

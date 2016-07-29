@@ -34,7 +34,7 @@ import cn.ucai.bean.Result;
 import cn.ucai.bean.UserAvatar;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.db.UserDao;
 import cn.ucai.fulicenter.domain.User;
 import cn.ucai.fulicenter.listener.OnSetAvatarListener;
@@ -117,9 +117,9 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 				break;
 			case R.id.rl_nickname:
 				final EditText editText = new EditText(this);
-				Log.e(TAG,"nick="+SuperWeChatApplication.getInstance().getUser());
-				Log.e(TAG,"nick="+SuperWeChatApplication.currentUserNick);
-				editText.setText(SuperWeChatApplication.getInstance().getUser().getMUserNick());
+				Log.e(TAG,"nick="+ FuliCenterApplication.getInstance().getUser());
+				Log.e(TAG,"nick="+ FuliCenterApplication.currentUserNick);
+				editText.setText(FuliCenterApplication.getInstance().getUser().getMUserNick());
 				new AlertDialog.Builder(this).setTitle(R.string.setting_nickname).setIcon(android.R.drawable.ic_dialog_info).setView(editText)
 						.setPositiveButton(R.string.dl_ok, new DialogInterface.OnClickListener() {
 
@@ -149,7 +149,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 	private void updateAppNick(final String nickString) {
 		final OkHttpUtils2<String> utils = new OkHttpUtils2<String>();
 		utils.setRequestUrl(I.REQUEST_UPDATE_USER_NICK)
-				.addParam(I.User.USER_NAME, SuperWeChatApplication.getInstance().getUserName())
+				.addParam(I.User.USER_NAME, FuliCenterApplication.getInstance().getUserName())
 				.addParam(I.User.NICK,nickString)
 				.targetClass(String.class)
 				.execute(new OkHttpUtils2.OnCompleteListener<String>() {
@@ -162,8 +162,8 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 							UserAvatar user = (UserAvatar) result.getRetData();
 							Log.e(TAG,"user="+user);
 							if (user!=null) {
-								SuperWeChatApplication.getInstance().setUser(user);
-								SuperWeChatApplication.currentUserNick = user.getMUserNick();
+								FuliCenterApplication.getInstance().setUser(user);
+								FuliCenterApplication.currentUserNick = user.getMUserNick();
 								UserDao dao = new UserDao(UserProfileActivity.this);
 								dao.updateUserNick(user);
 								updateRemoteNick(nickString);
@@ -301,7 +301,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 	private void uploadUserAvatar(final Intent data) {
 		File file = new File(OnSetAvatarListener.getAvatarPath(UserProfileActivity.this,I.AVATAR_TYPE_USER_PATH),
 				avatarName+I.AVATAR_SUFFIX_JPG);
-		String username = SuperWeChatApplication.getInstance().getUserName();
+		String username = FuliCenterApplication.getInstance().getUserName();
 		final OkHttpUtils2<Result> utils = new OkHttpUtils2<Result>();
 		utils.setRequestUrl(I.REQUEST_UPLOAD_AVATAR)
 				.addParam(I.NAME_OR_HXID,username)

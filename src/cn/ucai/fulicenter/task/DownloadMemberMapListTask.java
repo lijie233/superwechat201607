@@ -11,7 +11,7 @@ import java.util.Map;
 import cn.ucai.I;
 import cn.ucai.bean.MemberUserAvatar;
 import cn.ucai.bean.Result;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.utils.Utils;
 import cn.ucai.data.OkHttpUtils2;
 
@@ -41,7 +41,7 @@ public class DownloadMemberMapListTask {
                         Log.e(TAG,"list="+list);
                         if (list!=null && list.size()>0){
                             Log.e(TAG,"list.size="+list.size());
-                            Map<String, HashMap<String, MemberUserAvatar>> memberMap = SuperWeChatApplication.getInstance().getMemberMap();
+                            Map<String, HashMap<String, MemberUserAvatar>> memberMap = FuliCenterApplication.getInstance().getMemberMap();
                             if (!memberMap.containsKey(hxid)) {
                                 memberMap.put(hxid, new HashMap<String, MemberUserAvatar>());
                             }

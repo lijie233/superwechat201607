@@ -9,7 +9,7 @@ import java.util.List;
 import cn.ucai.I;
 import cn.ucai.bean.GroupAvatar;
 import cn.ucai.bean.Result;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.utils.Utils;
 import cn.ucai.data.OkHttpUtils2;
 
@@ -39,9 +39,9 @@ public class DownloadGroupListTask {
                         Log.e(TAG,"list="+list);
                         if (list!=null && list.size()>0){
                             Log.e(TAG,"list.size="+list.size());
-                            SuperWeChatApplication.getInstance().setGroupList(list);
+                            FuliCenterApplication.getInstance().setGroupList(list);
                             for (GroupAvatar g : list) {
-                                SuperWeChatApplication.getInstance().getGroupMap().put(g.getMGroupHxid(),g);
+                                FuliCenterApplication.getInstance().getGroupMap().put(g.getMGroupHxid(),g);
                             }
                             mContext.sendStickyBroadcast(new Intent("update_group_list"));
                         }

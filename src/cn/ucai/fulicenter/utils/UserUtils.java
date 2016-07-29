@@ -12,7 +12,7 @@ import cn.ucai.bean.UserAvatar;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.domain.User;
 import com.squareup.picasso.Picasso;
 
@@ -44,7 +44,7 @@ public class UserUtils {
 	 * @return
 	 */
 	public static UserAvatar getAppUserInfo(String username){
-		UserAvatar user = SuperWeChatApplication.getInstance().getUserMap().get(username);
+		UserAvatar user = FuliCenterApplication.getInstance().getUserMap().get(username);
 		if(user == null){
 			user = new UserAvatar(username);
 		}
@@ -54,7 +54,7 @@ public class UserUtils {
 
 	public static MemberUserAvatar getAppMemberInfo(String hxid, String username) {
 		MemberUserAvatar member = null;
-		HashMap<String, MemberUserAvatar> members = SuperWeChatApplication.getInstance().getMemberMap().get(hxid);
+		HashMap<String, MemberUserAvatar> members = FuliCenterApplication.getInstance().getMemberMap().get(hxid);
 		if (members == null || members.size() < 0) {
 			return null;
 		} else {
@@ -129,7 +129,7 @@ public class UserUtils {
 		}
 	}
 	public static void setAppCurrentUserAvatar(Context context, ImageView imageView) {
-		setAppUserAvatar(context,SuperWeChatApplication.getInstance().getUserName(),imageView);
+		setAppUserAvatar(context, FuliCenterApplication.getInstance().getUserName(),imageView);
 	}
 
     /**
@@ -192,7 +192,7 @@ public class UserUtils {
 	 * 设置当前用户昵称
 	 */
 	public static void setAppCurrentUserNick(TextView textView){
-		UserAvatar user = SuperWeChatApplication.getInstance().getUser();
+		UserAvatar user = FuliCenterApplication.getInstance().getUser();
 		if (textView != null) {
 			textView.setText(user.getMUserNick());
 		} else {

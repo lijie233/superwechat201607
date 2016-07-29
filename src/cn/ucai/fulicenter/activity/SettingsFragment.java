@@ -38,7 +38,7 @@ import cn.ucai.fulicenter.Constant;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.DemoHXSDKModel;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.SuperWeChatApplication;
+import cn.ucai.fulicenter.FuliCenterApplication;
 
 /**
  * 设置界面
@@ -358,10 +358,10 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 			public void onSuccess() {
 				getActivity().runOnUiThread(new Runnable() {
 					public void run() {
-						SuperWeChatApplication.getInstance().setUser(null);
-						SuperWeChatApplication.getInstance().getUserMap().clear();
-						SuperWeChatApplication.getInstance().getUserList().clear();
-						SuperWeChatApplication.getInstance().getGroupList().clear();
+						FuliCenterApplication.getInstance().setUser(null);
+						FuliCenterApplication.getInstance().getUserMap().clear();
+						FuliCenterApplication.getInstance().getUserList().clear();
+						FuliCenterApplication.getInstance().getGroupList().clear();
 						pd.dismiss();
 						// 重新显示登陆页面
 						((MainActivity) getActivity()).finish();
