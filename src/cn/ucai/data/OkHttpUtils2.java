@@ -28,7 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import cn.ucai.I;
-import cn.ucai.chatuidemo.SuperWeChatApplication;
+import cn.ucai.fulicenter.SuperWeChatApplication;
 
 
 /**
