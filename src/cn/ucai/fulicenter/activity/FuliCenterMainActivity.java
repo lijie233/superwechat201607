@@ -59,6 +59,7 @@ public class FuliCenterMainActivity extends BaseActivity{
         }
         if (index != currentIndex) {
             setRadioButtonStatus(index);
+            currentIndex=index;
         }
     }
 
