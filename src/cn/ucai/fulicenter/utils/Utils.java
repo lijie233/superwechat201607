@@ -87,7 +87,12 @@ public class Utils {
             } else if (!jsonObject.isNull("msg")) {
                 result.setRetCode(jsonObject.getInt("msg"));
             }
-            if(!jsonObject.isNull("retData")) {
+            if (!jsonObject.isNull("retMsg")) {
+                result.setRetMsg(jsonObject.getBoolean("retMsg"));
+            } else {
+                result.setRetMsg(jsonObject.getBoolean("result"));
+            }
+            if (!jsonObject.isNull("retData")) {
                 JSONObject jsonRetData = jsonObject.getJSONObject("retData");
                 if (jsonRetData != null) {
                     Log.e("Utils", "jsonRetData=" + jsonRetData);
@@ -102,6 +107,24 @@ public class Utils {
                     } catch (UnsupportedEncodingException e1) {
                         e1.printStackTrace();
                         T t = new Gson().fromJson(jsonRetData.toString(), clazz);
+                        result.setRetData(t);
+                        return result;
+                    }
+                }
+            } else {
+                if (jsonObject != null) {
+                    Log.e("Utils", "jsonRetData=" + jsonObject);
+                    String date;
+                    try {
+                        date = URLDecoder.decode(jsonObject.toString(), I.UTF_8);
+                        Log.e("Utils", "jsonRetData=" + date);
+                        T t = new Gson().fromJson(date, clazz);
+                        result.setRetData(t);
+                        return result;
+
+                    } catch (UnsupportedEncodingException e1) {
+                        e1.printStackTrace();
+                        T t = new Gson().fromJson(jsonObject.toString(), clazz);
                         result.setRetData(t);
                         return result;
                     }
@@ -124,6 +147,11 @@ public class Utils {
                 result.setRetCode(jsonObject.getInt("reCode"));
             } else if (!jsonObject.isNull("msg")) {
                 result.setRetCode(jsonObject.getInt("msg"));
+            }
+            if (!jsonObject.isNull("retMsg")) {
+                result.setRetMsg(jsonObject.getBoolean("retMsg"));
+            } else {
+                result.setRetMsg(jsonObject.getBoolean("result"));
             }
             if(!jsonObject.isNull("retData")) {
                 if (!jsonObject.isNull("reData")) {
@@ -169,7 +197,12 @@ public class Utils {
             } else if (!jsonObject.isNull("msg")) {
                 result.setRetCode(jsonObject.getInt("msg"));
             }
-            if(!jsonObject.isNull("retData")) {
+            if (!jsonObject.isNull("retMsg")) {
+                result.setRetMsg(jsonObject.getBoolean("retMsg"));
+            } else {
+                result.setRetMsg(jsonObject.getBoolean("result"));
+            }
+            if (!jsonObject.isNull("retData")) {
                 JSONObject jsonPager = jsonObject.getJSONObject("retData");
                 if (jsonPager != null) {
                     Pager pager = new Pager();

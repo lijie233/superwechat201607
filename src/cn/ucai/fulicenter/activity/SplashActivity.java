@@ -87,7 +87,6 @@ public class SplashActivity extends BaseActivity {
 
 									}
 								});
-
 					}else {
 						FuliCenterApplication.getInstance().setUser(user);
 						FuliCenterApplication.currentUserNick = user.getMUserNick();
