@@ -335,15 +335,6 @@ public class DemoHXSDKHelper extends HXSDKHelper {
                     if (chatType == ChatType.Chat) { // 单聊信息
                         intent.putExtra("userId", message.getFrom());
                         intent.putExtra("chatType", ChatActivity.CHATTYPE_SINGLE);
-                    } else { // 群聊信息
-                        // message.getTo()为群聊id
-                        intent.putExtra("groupId", message.getTo());
-                        if(chatType == ChatType.GroupChat){
-                            intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
-                        }else{
-                            intent.putExtra("chatType", ChatActivity.CHATTYPE_CHATROOM);
-                        }
-                        
                     }
                 }
                 return intent;
@@ -388,7 +379,6 @@ public class DemoHXSDKHelper extends HXSDKHelper {
                 // 获取设置的不提示新消息的用户或者群组ids
                 if (message.getChatType() == ChatType.Chat) {
                     chatUsename = message.getFrom();
-                    notNotifyIds = ((DemoHXSDKModel) hxModel).getDisabledGroups();
                 } else {
                     chatUsename = message.getTo();
                     notNotifyIds = ((DemoHXSDKModel) hxModel).getDisabledIds();

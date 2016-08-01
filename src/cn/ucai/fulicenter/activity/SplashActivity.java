@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMGroupManager;
 
 import cn.ucai.I;
 import cn.ucai.bean.Result;
@@ -21,7 +20,6 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.db.UserDao;
 import cn.ucai.fulicenter.task.DownloadContactListTask;
-import cn.ucai.fulicenter.task.DownloadGroupListTask;
 import cn.ucai.fulicenter.utils.Utils;
 import cn.ucai.data.OkHttpUtils2;
 
@@ -61,7 +59,6 @@ public class SplashActivity extends BaseActivity {
 					//不是必须的，不加sdk也会自动异步去加载(不会重复加载)；
 					//加上的话保证进了主页面会话和群组都已经load完毕
 					long start = System.currentTimeMillis();
-					EMGroupManager.getInstance().loadAllGroups();
 					EMChatManager.getInstance().loadAllConversations();
 					String username = FuliCenterApplication.getInstance().getUserName();
 					Log.e(TAG,"username="+username);
@@ -96,7 +93,6 @@ public class SplashActivity extends BaseActivity {
 						FuliCenterApplication.currentUserNick = user.getMUserNick();
 					}
 					new DownloadContactListTask(SplashActivity.this,username).execute();
-					new DownloadGroupListTask(SplashActivity.this,username).execute();
 					long costTime = System.currentTimeMillis() - start;
 					//等待sleeptime时长
 					if (sleepTime - costTime > 0) {

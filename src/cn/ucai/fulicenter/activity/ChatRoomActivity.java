@@ -51,24 +51,6 @@ public class ChatRoomActivity extends BaseActivity {
 		chatListView = (ListView) findViewById(R.id.list);
 		chatRoomAdapter = new ChatRoomAdapter(this, 1, roomList);
 		chatListView.setAdapter(chatRoomAdapter);
-		chatListView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				if(position == 1) {
-					// 添加公开群
-					startActivityForResult(new Intent(ChatRoomActivity.this, PublicChatRoomsActivity.class), 0);
-				} else {
-					// 进入群聊
-					Intent intent = new Intent(ChatRoomActivity.this, ChatActivity.class);
-					// it is group chat
-					intent.putExtra("chatType", ChatActivity.CHATTYPE_CHATROOM);
-					intent.putExtra("groupId", chatRoomAdapter.getItem(position - 2).getId());
-					startActivityForResult(intent, 0);
-				}
-			}
-
-		});
 		
 		// TODO: we need more official UI, but for now, for test purpose
 		chatListView.setOnItemLongClickListener(new OnItemLongClickListener(){
@@ -105,13 +87,6 @@ public class ChatRoomActivity extends BaseActivity {
 				return false;
 			}
 		});
-	}
-
-	/**
-	 * 进入公开群聊列表
-	 */
-	public void onPublicGroups(View view) {
-		startActivity(new Intent(this, PublicGroupsActivity.class));
 	}
 
 	@Override

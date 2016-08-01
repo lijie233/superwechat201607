@@ -98,17 +98,6 @@ public interface I {
         public static final String COLOR_URL="color_url";
     }
 
-    class CategoryGroup{
-        public static final String ID="id";
-        public static final String NAME="name";
-        public static final String IMAGE_URL="imageurl";
-    }
-
-    class CategoryChild extends CategoryGroup{
-        public static final String PARENT_ID="parent_id";
-        public static final String CAT_ID="catId";
-    }
-
     class CategoryGood{
         public static final String TABLE_NAME="tb_category_good";
         public static final String ID="id";
@@ -188,28 +177,6 @@ public interface I {
         String CU_NAME 								= 		"m_contact_cname";				//好友账号
     }
 
-    interface Group {
-        String TABLE_NAME 							= 		"t_superwechat_group";
-        String GROUP_ID 							= 		"m_group_id";					// 主键
-        String HX_ID 								= 		"m_group_hxid";					//环信群组id
-        String NAME 								= 		"m_group_name";					//群组名称
-        String DESCRIPTION 							= 		"m_group_description";			//群组简介
-        String OWNER 								= 		"m_group_owner";				//群组所有者－用户账号
-        String MODIFIED_TIME 						= 		"m_group_last_modified_time";	//最后修改时间
-        String MAX_USERS 							= 		"m_group_max_users";			//最大人数
-        String AFFILIATIONS_COUNT 					= 		"m_group_affiliations_count";	//群组人数
-        String IS_PUBLIC 							= 		"m_group_is_public";			//群组是否公开
-        String ALLOW_INVITES 						= 		"m_group_allow_invites";		//是否可以邀请
-    }
-
-    interface Member {
-        String TABLE_NAME 							= 		"t_superwechat_member";
-        String MEMBER_ID 							= 		"m_member_id";					//主键
-        String USER_NAME 							= 		"m_member_user_name";			//用户账号
-        String GROUP_ID 							= 		"m_member_group_id";			//群组id
-        String GROUP_HX_ID 							= 		"m_member_group_hxid";			//群组环信id
-        String PERMISSION 							= 		"m_member_permission";			//用户对群组的权限\n0:普通用户\n1:群组所有者
-    }
 
     interface Avatar {
         String TABLE_NAME 							= 		"t_superwechat_avatar";
@@ -258,18 +225,11 @@ public interface I {
     int PAGE_SIZE_DEFAULT 							= 		10;
     int ID_DEFAULT									=		0;								//ID默认值
     int UN_READ_MSG_COUNT_DEFAULT					=		0;								//未读消息数量默认值
-    int GROUP_MAX_USERS_DEFAULT 					= 		-1;								//群组最大人数默认值
-    int GROUP_AFFILIATIONS_COUNT_DEFAULT 			= 		1;								//群组人数默认值
     int PERMISSION_NORMAL							= 		0;								//普通用户群组权限
     int PERMISSION_OWNER							= 		1;								//群组所有者群组权限
     int AVATAR_TYPE_USER							=		0;								//用户头像
-    int AVATAR_TYPE_GROUP							=		1;								//群组头像
-    int GROUP_PUBLIC								=		1;								//公开群组
-    int GROUP_NO_PUBLIC								=		0;								//非公开群组
     String BACKSLASH								= 		"/";							//反斜杠
     String AVATAR_TYPE_USER_PATH					= 		"user_avatar";					//用户头像保存目录
-    String AVATAR_TYPE_GROUP_PATH 					=		"group_icon";					//群组头像保存目录
-    String AVATAR_SUFFIX_PNG						=		".png";							//PNG图片后缀名
     String AVATAR_SUFFIX_JPG						=		".jpg";							//JPG图片后缀名
     String QUESTION                                 =       "?";                            //问号
     String EQUALS                                   =       "=";                            //等号
@@ -283,13 +243,6 @@ public interface I {
     int MSG_CONTACT_DEL_FAIL						=		303;							//好友关系删除失败
     int MSG_GET_CONTACT_ALL_FAIL					=		304;							// 获取全部好友列表失败
     int MSG_GET_CONTACT_PAGES_FAIL					=		305;							// 分页获取好友列表失败
-    int MSG_GROUP_GET_MEMBERS_FAIL					=		404;							//获取群成员失败
-    int MSG_GROUP_DELETE_MEMBERS_FAIL				=		409;							//删除多群组成员失败
-    int MSG_GROUP_FIND_BY_GOURP_ID_FAIL				=		411;							//根据群组id查找群组失败
-    int MSG_GROUP_FIND_BY_HX_ID_FAIL				=		412;							//根据环信id查找群组失败
-    int MSG_GROUP_FIND_BY_USER_NAME_FAIL			=		413;							//查找用户名称查找查找群组失败
-    int MSG_GROUP_FIND_BY_GROUP_NAME_FAIL			=		414;							//查找群组名称查找查找群组失败
-    int MSG_PUBLIC_GROUP_FAIL						=		415;							//查找公开群失败
     int MSG_LOCATION_GET_FAIL						=		501;							// 获取附近的人失败
     int MSG_ILLEGAL_REQUEST							=		-1;							//非法请求
     int MSG_CONNECTION_SUCCESS						=  		900;							//连接服务器成功
@@ -305,19 +258,6 @@ public interface I {
     int MSG_UNREGISTER_FAIL							=		107;							//注册失败
     int MSG_CONTACT_FIRENDED						=		201;							//已经是好友关系
     int MSG_CONTACT_FAIL							=		202;							//好友关系
-    int MSG_GROUP_CREATE_SCUUESS					=		301;							//创建群组成功
-    int MSG_GROUP_HXID_EXISTS						=		302;							//群组环信ID已经存在
-    int MSG_GROUP_CREATE_FAIL						=		303;							//创建群组成功
-    int MSG_GROUP_ADD_MEMBER_FAIL					=		304;							//添加群组成员失败
-    int MSG_GROUP_ADD_MEMBER_SCUUESS				=		305;							//添加群组成员成功
-    int MSG_GROUP_UNKONW							=		306;							//群组不存在
-    int MSG_GROUP_SAME_NAME							=		307;							//群组名称未修改
-    int MSG_GROUP_UPDATE_NAME_SUCCESS				=		308;							//群组名称修改成功
-    int MSG_GROUP_UPDATE_NAME_FAIL					=		309;							//群组名称修改失败
-    int MSG_GROUP_DELETE_MEMBER_SUCCESS				=		310;							//删除群组成员成功
-    int MSG_GROUP_DELETE_MEMBER_FAIL				=		311;							//删除群组成员失败
-    int MSG_GROUP_DELETE_SUCCESS					=		312;							//删除群组成功
-    int MSG_GROUP_DELETE_FAIL						=		313;							//删除群组失败
     int MSG_LOGIN_UNKNOW_USER						=		401;							//账户不存在
     int MSG_LOGIN_ERROR_PASSWORD					=		402;							//账户密码错误
     int MSG_LOGIN_SUCCESS							=		403;							//登陆成功
@@ -333,7 +273,7 @@ public interface I {
     int MSG_LOCATION_UPDATE_FAIL					=		504;							//用户更新地理位置失败
     int MSG_UNKNOW									=		999;							//未知错误
     String KEY_REQUEST 								= 		"request";
-    /** 上传图片的类型：user_avatar或group_icon */
+    /** 上传图片的类型：user_avatar*/
     String AVATAR_TYPE 								= 		"avatarType";
     /** 用户姓名或hxid */
     String NAME_OR_HXID                             =       "name_or_hxid";
@@ -355,8 +295,6 @@ public interface I {
     String REQUEST_LOGIN 							= 		"login";
     /** 客户端发送的下载用户头像请求 */
     String REQUEST_DOWNLOAD_AVATAR	 				= 		"download_avatar";
-    /** 客户端发送的下载群组头像请求 */
-    String REQUEST_DOWNLOAD_GROUP_AVATAR 			= 		"download_group_avatar";
     /** 客户端发送的下载联系人请求 */
     String REQUEST_DOWNLOAD_CONTACTS			 	= 		"download_contacts";
     /** 客户端发送的下载联系人所有集合请求 */
@@ -384,62 +322,12 @@ public interface I {
     String REQUEST_UPDATE_LOCATION 					= 		"update_location";
     /** 客户端发送的下载位置请求 */
     String REQUEST_DOWNLOAD_LOCATION 				= 		"download_location";
-    /** 客户端发送的创建群组请求 */
-    String REQUEST_CREATE_GROUP			 			= 		"create_group";
-    /** 客户端发送的添加群成员请求 */
-    String REQUEST_ADD_GROUP_MEMBER_BY_USERNAME		= 		"add_group_member_by_username";
-    /** 客户端发送的添加群成员请求 */
-    String REQUEST_ADD_GROUP_MEMBER 				= 		"add_group_member";
-    /** 客户端发送的添加多个群成员请求 */
-    String REQUEST_ADD_GROUP_MEMBERS		 		= 		"add_group_members";
-    /** 客户端发送的更新群名称请求 */
-    String REQUEST_UPDATE_GROUP_NAME 				= 		"update_group_name";
-    /** 客户端发送的下载多个群成员请求 */
-    String REQUEST_DOWNLOAD_GROUP_MEMBER 			= 		"download_group_members_by_groupid";
-    /** 客户端发送的下载多个群成员请求 */
-    String REQUEST_DOWNLOAD_GROUP_MEMBERS 			= 		"download_group_members";
-    /** 客户端发送的下载多个群成员请求 */
-    String REQUEST_DOWNLOAD_GROUP_MEMBERS_BY_LIMIT 	= 		"download_group_members_by_limit";
-    /** 客户端发送的下载多个群成员请求 */
-    String REQUEST_DOWNLOAD_GROUP_MEMBERS_BY_HXID 	= 		"download_group_members_by_hxid";
-    /** 客户端发送的下载多个群成员请求 */
-    String REQUEST_DOWNLOAD_GROUP_MEMBERS_BY_HXID_LIMIT 	= 		"download_group_members_by_hxid_limit";
-    /** 客户端发送的删除群成员请求 */
-    String REQUEST_DELETE_GROUP_MEMBER 				= 		"delete_group_member";
-    /** 客户端发送的删除多个群成员请求 */
-    String REQUEST_DELETE_GROUP_MEMBERS 			= 		"delete_group_members";
-    /** 客户端发送的删除群组请求 */
-    String REQUEST_DELETE_GROUP 					= 		"delete_group";
-    /** 客户端发送的下载群组请求 */
-    String REQUEST_DOWNLOAD_GROUPS 					= 		"download_groups";
-    /** 客户端发送的下载公开裙请求 */
-    String REQUEST_FIND_PUBLIC_GROUPS 				= 		"download_public_groups";
-    /** 客户端发送的根据群组名称模糊查找群组请求 */
-    /** 客户端发送的根据群组名称模糊查找群组请求 */
-    String REQUEST_FIND_GROUP 						= 		"find_group_by_group_name";
-    String REQUEST_FIND_GROUP_BY_GROUP_NAME 		= 		"find_group_by_group_name";
-    /** 客户端发送的用户姓名查找用户所在的群组请求 */
-    String REQUEST_FIND_GROUP_BY_USER_NAME 			= 		"find_group_by_user_name";
-    /** 客户端发送的根据群组账号查找群组请求 */
-    String REQUEST_FIND_GROUP_BY_ID					= 		"find_group_by_group_id";
-    /** 客户端发送的根据群组环信id查找群组请求 */
-    String REQUEST_FIND_GROUP_BY_HXID 				= 		"find_group_by_group_hxid";
-    /** 客户端发送的根据群组环信id查找公开群组请求 */
-    String REQUEST_FIND_PUBLIC_GROUP_BY_HXID 		= 		"find_public_group_by_group_hxid";
-    String DOWNLOAD_USER_AVATAR_URL                 =       I.SERVER_ROOT
-            +  "?" + KEY_REQUEST + "=" + REQUEST_DOWNLOAD_AVATAR + "&" + AVATAR_TYPE + "=";
-    /** 客户端发送的根据根据群组环信id下载群组头像的请求 */
-    String DOWNLOAD_GROUP_AVATAR_URL                 =       I.SERVER_ROOT
-            +  "?" + KEY_REQUEST + "=" + REQUEST_DOWNLOAD_GROUP_AVATAR + "&time=123" + "&" + AVATAR_TYPE + "=";
     String REQUEST_FIND_CHARGE = "find_charge";
 
     /** 从服务端查询精选首页的数据*/
     String REQUEST_FIND_BOUTIQUES="find_boutiques";
     /** 从服务端查询新品或精选的商品*/
     String REQUEST_FIND_NEW_BOUTIQUE_GOODS="find_new_boutique_goods";
-
-    /** 从服务端下载tb_category_parent表的数据*/
-    String REQUEST_FIND_CATEGORY_GROUP="find_category_group";
 
     /** 从服务端下载tb_category_child表的数据*/
     String REQUEST_FIND_CATEGORY_CHILDREN="find_category_children";
@@ -494,14 +382,7 @@ public interface I {
     String DOWNLOAD_BOUTIQUE_IMG_URL= I.SERVER_ROOT+
             "?request="+REQUEST_DOWNLOAD_BOUTIQUE_IMG+"&"+Boutique.IMAGE_URL+"=";
 
-    /** 下载分类商品大类图像的请求*/
-    String REQUEST_DOWNLOAD_CATEGORY_GROUP_IMAGE="download_category_group_image";
-    /** 下载分类商品大类图像的接口*/
-    String DOWNLOAD_DOWNLOAD_CATEGORY_GROUP_IMAGE_URL= I.SERVER_ROOT+
-            "?request="+REQUEST_DOWNLOAD_CATEGORY_GROUP_IMAGE
-            +"&"+D.CategoryGroup.IMAGE_URL+"=";
-
-    /** 下载收藏商品图像的请求*/
+   /** 下载收藏商品图像的请求*/
     String REQUEST_DOWNLOAD_GOODS_THUMB="download_goods_thumb";
     /** 下载收藏商品图像的接口*/
     String DOWNLOAD_GOODS_THUMB_URL= I.SERVER_ROOT+
@@ -510,12 +391,7 @@ public interface I {
 
     /** 下载分类商品小类图像的请求*/
     String REQUEST_DOWNLOAD_CATEGORY_CHILD_IMAGE="download_category_child_image";
-    /** 下载分类商品小类图像的接口*/
-    String DOWNLOAD_DOWNLOAD_CATEGORY_CHILD_IMAGE_URL= I.SERVER_ROOT+
-            "?request="+REQUEST_DOWNLOAD_CATEGORY_GROUP_IMAGE
-            +"&"+D.CategoryChild.IMAGE_URL+"=";
-
-    String REQUEST_UPLOAD_NICK="upload_nick";
+  String REQUEST_UPLOAD_NICK="upload_nick";
     //壹收款支付请求
     String REQUEST_PAY="pay";
     /**壹收款服务端支付URL*/

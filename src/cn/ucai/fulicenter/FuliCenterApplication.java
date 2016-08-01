@@ -22,9 +22,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import cn.ucai.bean.GroupAvatar;
-import cn.ucai.bean.MemberUserAvatar;
 import cn.ucai.bean.UserAvatar;
 
 public class FuliCenterApplication extends Application {
@@ -122,12 +119,7 @@ public class FuliCenterApplication extends Application {
 	private List<UserAvatar> userList = new ArrayList<UserAvatar>();
 	/**全局的当前登录用户的好友Map集合*/
 	private Map<String, UserAvatar> userMap = new HashMap<String, UserAvatar>();
-	/**全局的当前登录用户的群组集合*/
-	private List<GroupAvatar> groupList = new ArrayList<GroupAvatar>();
-	/**全局的群组成员集合*/
-	private Map<String, HashMap<String, MemberUserAvatar>> memberMap = new HashMap<String, HashMap<String, MemberUserAvatar>>();
-	/**全局的群组成员集合*/
-	private Map<String,GroupAvatar> groupMap = new HashMap<String,GroupAvatar>();
+
 
 	public UserAvatar getUser() {
 		return user;
@@ -154,27 +146,4 @@ public class FuliCenterApplication extends Application {
 		this.userMap = userMap;
 	}
 
-	public List<GroupAvatar> getGroupList() {
-		return groupList;
-	}
-
-	public void setGroupList(List<GroupAvatar> groupList) {
-		this.groupList = groupList;
-	}
-
-	public Map<String, HashMap<String, MemberUserAvatar>> getMemberMap() {
-		return memberMap;
-	}
-
-	public void setMemberMap(Map<String, HashMap<String, MemberUserAvatar>> memberMap) {
-		this.memberMap = memberMap;
-	}
-
-	public Map<String, GroupAvatar> getGroupMap() {
-		return groupMap;
-	}
-
-	public void setGroupMap(Map<String, GroupAvatar> groupMap) {
-		this.groupMap = groupMap;
-	}
 }

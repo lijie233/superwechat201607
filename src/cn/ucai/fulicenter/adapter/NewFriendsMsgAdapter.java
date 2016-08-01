@@ -31,16 +31,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMGroupManager;
 
 import cn.ucai.I;
-import cn.ucai.bean.GroupAvatar;
 import cn.ucai.bean.Result;
 import cn.ucai.bean.UserAvatar;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.db.InviteMessgeDao;
 import cn.ucai.fulicenter.domain.InviteMessage;
-import cn.ucai.fulicenter.task.DownloadMemberMapListTask;
 import cn.ucai.fulicenter.utils.UserUtils;
 import cn.ucai.fulicenter.utils.Utils;
 import cn.ucai.data.OkHttpUtils2;
@@ -66,8 +63,6 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 			holder.reason = (TextView) convertView.findViewById(R.id.message);
 			holder.name = (TextView) convertView.findViewById(R.id.name);
 			holder.status = (Button) convertView.findViewById(R.id.user_state);
-			holder.groupContainer = (LinearLayout) convertView.findViewById(R.id.ll_group);
-			holder.groupname = (TextView) convertView.findViewById(R.id.tv_groupName);
 			// holder.time = (TextView) convertView.findViewById(R.id.time);
 			convertView.setTag(holder);
 		} else {
@@ -83,12 +78,6 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 		String str6 = context.getResources().getString(R.string.Has_refused_to);
 		final InviteMessage msg = getItem(position);
 		if (msg != null) {
-			if(msg.getGroupId() != null){ // 显示群聊提示
-				holder.groupContainer.setVisibility(View.VISIBLE);
-				holder.groupname.setText(msg.getGroupName());
-			} else{
-				holder.groupContainer.setVisibility(View.GONE);
-			}
 
 			holder.reason.setText(msg.getReason());
 			//holder.name.setText(msg.getFrom());
@@ -106,10 +95,6 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 					if (msg.getReason() == null) {
 						// 如果没写理由
 						holder.reason.setText(str3);
-					}
-				}else{ //入群申请
-					if (TextUtils.isEmpty(msg.getReason())) {
-						holder.reason.setText(str4 + msg.getGroupName());
 					}
 				}
 				// 设置点击事件
@@ -182,12 +167,7 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 			public void run() {
 				// 调用sdk的同意方法
 				try {
-					if(msg.getGroupId() == null) { //同意好友请求
-						EMChatManager.getInstance().acceptInvitation(msg.getFrom());
-					} else { //同意加群申请
-						EMGroupManager.getInstance().acceptApplication(msg.getFrom(), msg.getGroupId());
-						addMemberToAppGroup(msg.getFrom(),msg.getGroupId());
-					}
+
 					((Activity) context).runOnUiThread(new Runnable() {
 
 						@Override
@@ -219,35 +199,12 @@ public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 		}).start();
 	}
 
-	private void addMemberToAppGroup(String username, final String hxid) {
-		final OkHttpUtils2<String> utils = new OkHttpUtils2<String>();
-		utils.setRequestUrl(I.REQUEST_ADD_GROUP_MEMBER)
-				.addParam(I.Member.USER_NAME,username)
-				.addParam(I.Member.GROUP_HX_ID,hxid)
-				.targetClass(String.class)
-				.execute(new OkHttpUtils2.OnCompleteListener<String>() {
-					@Override
-					public void onSuccess(String s) {
-						Result result = Utils.getResultFromJson(s, GroupAvatar.class);
-						if (result != null && result.isRetMsg()) {
-							new DownloadMemberMapListTask(context,hxid).execute();
-						}
-					}
-
-					@Override
-					public void onError(String error) {
-
-					}
-				});
-	}
 
 	private static class ViewHolder {
 		ImageView avator;
 		TextView name;
 		TextView reason;
 		Button status;
-		LinearLayout groupContainer;
-		TextView groupname;
 		// TextView time;
 	}
 

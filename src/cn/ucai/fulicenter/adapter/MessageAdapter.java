@@ -414,17 +414,11 @@ public class MessageAdapter extends BaseAdapter{
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		// 群聊时，显示接收的消息的发送人的名称
-		if ((chatType == ChatType.GroupChat || chatType == ChatType.ChatRoom) && message.direct == EMMessage.Direct.RECEIVE){
-		    //demo里使用username代码nick
-			//UserUtils.setUserNick(message.getFrom(), holder.tv_usernick);
-			UserUtils.setAppMemberNick(username, message.getFrom(), holder.tv_usernick);
-		}
 		if(message.direct == EMMessage.Direct.SEND){
 			UserUtils.setCurrentUserNick(holder.tv_usernick);
 		}
 		// 如果是发送的消息并且不是群聊消息，显示已读textview
-		if (!(chatType == ChatType.GroupChat || chatType == ChatType.ChatRoom) && message.direct == EMMessage.Direct.SEND) {
+		if (!( chatType == ChatType.ChatRoom) && message.direct == EMMessage.Direct.SEND) {
 			holder.tv_ack = (TextView) convertView.findViewById(R.id.tv_ack);
 			holder.tv_delivered = (TextView) convertView.findViewById(R.id.tv_delivered);
 			if (holder.tv_ack != null) {
@@ -448,7 +442,7 @@ public class MessageAdapter extends BaseAdapter{
 			}
 		} else {
 			// 如果是文本或者地图消息并且不是group messgae,chatroom message，显示的时候给对方发送已读回执
-			if ((message.getType() == Type.TXT || message.getType() == Type.LOCATION) && !message.isAcked && chatType != ChatType.GroupChat && chatType != ChatType.ChatRoom) {
+			if ((message.getType() == Type.TXT || message.getType() == Type.LOCATION) && !message.isAcked  && chatType != ChatType.ChatRoom) {
 				// 不是语音通话记录
 				if (!message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VOICE_CALL, false)) {
 					try {
@@ -583,7 +577,6 @@ public class MessageAdapter extends BaseAdapter{
 				Intent intent = new Intent();
 				intent.setClass(context, UserProfileActivity.class);
 				intent.putExtra("username", message.getFrom());
-				intent.putExtra("groupId", username);
 				context.startActivity(intent);
 			}
 		});
@@ -1099,7 +1092,7 @@ public class MessageAdapter extends BaseAdapter{
 					// 下载
 					context.startActivity(new Intent(context, ShowNormalFileActivity.class).putExtra("msgbody", fileMessageBody));
 				}
-				if (message.direct == EMMessage.Direct.RECEIVE && !message.isAcked && message.getChatType() != ChatType.GroupChat && message.getChatType() != ChatType.ChatRoom) {
+				if (message.direct == EMMessage.Direct.RECEIVE && !message.isAcked && message.getChatType() != ChatType.ChatRoom) {
 					try {
 						EMChatManager.getInstance().ackMessageRead(message.getFrom(), message.getMsgId());
 						message.isAcked = true;
@@ -1405,9 +1398,6 @@ public class MessageAdapter extends BaseAdapter{
 				    if(message.getError() == EMError.MESSAGE_SEND_INVALID_CONTENT){
 				        Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.error_send_invalid_content), Toast.LENGTH_SHORT)
                         .show();
-				    }else if(message.getError() == EMError.MESSAGE_SEND_NOT_IN_THE_GROUP){
-				        Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.error_send_not_in_the_group), Toast.LENGTH_SHORT)
-                        .show();
 				    }else{
 				        Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), Toast.LENGTH_SHORT)
                         .show();
@@ -1461,7 +1451,7 @@ public class MessageAdapter extends BaseAdapter{
 						intent.putExtra("remotepath", remote);
 					}
 					if (message != null && message.direct == EMMessage.Direct.RECEIVE && !message.isAcked
-							&& message.getChatType() != ChatType.GroupChat && message.getChatType() != ChatType.ChatRoom) {
+							&& message.getChatType() != ChatType.ChatRoom) {
 						try {
 							EMChatManager.getInstance().ackMessageRead(message.getFrom(), message.getMsgId());
 							message.isAcked = true;
@@ -1509,7 +1499,7 @@ public class MessageAdapter extends BaseAdapter{
 					intent.putExtra("secret", videoBody.getSecret());
 					intent.putExtra("remotepath", videoBody.getRemoteUrl());
 					if (message != null && message.direct == EMMessage.Direct.RECEIVE && !message.isAcked
-							&& message.getChatType() != ChatType.GroupChat && message.getChatType() != ChatType.ChatRoom) {
+							&& message.getChatType() != ChatType.ChatRoom) {
 						message.isAcked = true;
 						try {
 							EMChatManager.getInstance().ackMessageRead(message.getFrom(), message.getMsgId());

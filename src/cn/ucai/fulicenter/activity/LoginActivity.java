@@ -52,7 +52,6 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.db.UserDao;
 import cn.ucai.fulicenter.domain.User;
 import cn.ucai.fulicenter.task.DownloadContactListTask;
-import cn.ucai.fulicenter.task.DownloadGroupListTask;
 import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.UserUtils;
 import cn.ucai.fulicenter.utils.Utils;
@@ -264,7 +263,7 @@ public class LoginActivity extends BaseActivity {
 		FuliCenterApplication.currentUserNick = user.getMUserNick();
 		Log.e(TAG,"user.getMUserNick()"+user.getMUserNick());
 		new DownloadContactListTask(LoginActivity.this,currentUsername).execute();
-		new DownloadGroupListTask(LoginActivity.this, currentUsername).execute();
+
 
 		try {
 			// ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
@@ -312,13 +311,13 @@ public class LoginActivity extends BaseActivity {
 		newFriends.setNick(strChat);
 
 		userlist.put(Constant.NEW_FRIENDS_USERNAME, newFriends);
-		// 添加"群聊"
-		User groupUser = new User();
-		String strGroup = getResources().getString(R.string.group_chat);
-		groupUser.setUsername(Constant.GROUP_USERNAME);
-		groupUser.setNick(strGroup);
-		groupUser.setHeader("");
-		userlist.put(Constant.GROUP_USERNAME, groupUser);
+//		// 添加"群聊"
+//		User groupUser = new User();
+//		String strGroup = getResources().getString(R.string.group_chat);
+//		groupUser.setUsername(Constant.GROUP_USERNAME);
+//		groupUser.setNick(strGroup);
+//		groupUser.setHeader("");
+//		userlist.put(Constant.GROUP_USERNAME, groupUser);
 
 //		// 添加"Robot"
 //		User robotUser = new User();

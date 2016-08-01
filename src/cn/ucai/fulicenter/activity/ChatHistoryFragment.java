@@ -104,8 +104,6 @@ public class ChatHistoryFragment extends Fragment {
 					// 进入聊天页面
 					  Intent intent = new Intent(getActivity(), ChatActivity.class);
 					 if (emContact instanceof EMGroup) {
-		                    //it is group chat
-		                    intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
 		                    intent.putExtra("groupId", ((EMGroup) emContact).getGroupId());
 		                } else {
 		                    //it is single chat
@@ -173,11 +171,6 @@ public class ChatHistoryFragment extends Fragment {
 	public boolean onContextItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.delete_message) {
 			EMContact tobeDeleteUser = adapter.getItem(((AdapterContextMenuInfo) item.getMenuInfo()).position);
-			boolean isGroup = false;
-			if(tobeDeleteUser instanceof EMGroup)
-				isGroup = true;
-			// 删除此会话
-			EMChatManager.getInstance().deleteConversation(tobeDeleteUser.getUsername(),isGroup);
 			InviteMessgeDao inviteMessgeDao = new InviteMessgeDao(getActivity());
 			inviteMessgeDao.deleteMessage(tobeDeleteUser.getUsername());
 			adapter.remove(tobeDeleteUser);
@@ -217,14 +210,6 @@ public class ChatHistoryFragment extends Fragment {
 				resultList.add(user);
 			}
 		}
-		for(EMGroup group : EMGroupManager.getInstance().getAllGroups()){
-			EMConversation conversation = EMChatManager.getInstance().getConversation(group.getGroupId());
-			if(conversation.getMsgCount() > 0){
-				resultList.add(group);
-			}
-			
-		}
-		
 		// 排序
 		sortUserByLastChatTime(resultList);
 		return resultList;
@@ -232,8 +217,7 @@ public class ChatHistoryFragment extends Fragment {
 
 	/**
 	 * 根据最后一条消息的时间排序
-	 * 
-	 * @param usernames
+	 *
 	 */
 	private void sortUserByLastChatTime(List<EMContact> contactList) {
 		Collections.sort(contactList, new Comparator<EMContact>() {

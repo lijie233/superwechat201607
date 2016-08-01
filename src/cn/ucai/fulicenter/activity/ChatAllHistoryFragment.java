@@ -93,21 +93,8 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 				else {
 				    // 进入聊天页面
 				    Intent intent = new Intent(getActivity(), ChatActivity.class);
-				    if(conversation.isGroup()){
-				        if(conversation.getType() == EMConversationType.ChatRoom){
-				         // it is group chat
-	                        intent.putExtra("chatType", ChatActivity.CHATTYPE_CHATROOM);
-	                        intent.putExtra("groupId", username);
-				        }else{
-				         // it is group chat
-	                        intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
-	                        intent.putExtra("groupId", username);
-				        }
-				        
-				    }else{
 				        // it is single chat
                         intent.putExtra("userId", username);
-				    }
 				    startActivity(intent);
 				}
 			}
@@ -184,8 +171,6 @@ public class ChatAllHistoryFragment extends Fragment implements View.OnClickList
 			handled = true;
 		}
 		EMConversation tobeDeleteCons = adapter.getItem(((AdapterContextMenuInfo) item.getMenuInfo()).position);
-		// 删除此会话
-		EMChatManager.getInstance().deleteConversation(tobeDeleteCons.getUserName(), tobeDeleteCons.isGroup(), deleteMessage);
 		InviteMessgeDao inviteMessgeDao = new InviteMessgeDao(getActivity());
 		inviteMessgeDao.deleteMessage(tobeDeleteCons.getUserName());
 		adapter.remove(tobeDeleteCons);
