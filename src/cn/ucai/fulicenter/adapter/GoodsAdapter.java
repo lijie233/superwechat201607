@@ -15,6 +15,7 @@ import java.util.List;
 
 import cn.ucai.bean.NewGoodBean;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.utils.ImageUtils;
 
 /**
  * Created by Administrator on 2016/8/1.
@@ -22,27 +23,31 @@ import cn.ucai.fulicenter.R;
 public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     Context mContext;
     List<NewGoodBean> mGoodList;
+    GoodViewHolder mGoodViewHolder;
 
     public GoodsAdapter(Context context, List<NewGoodBean> list) {
-        this.mContext = context;
+        mContext = context;
         mGoodList = new ArrayList<NewGoodBean>();
         mGoodList.addAll(list);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder holder=null;
+        RecyclerView.ViewHolder holder = null;
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        holder = new GoodViewHolder(inflater.inflate(R.layout.item_good, null, false));
+        holder = new GoodViewHolder(inflater.inflate(R.layout.item_good,null,false));
         return holder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof GoodViewHolder) {
+        if (holder instanceof GoodViewHolder){
+            mGoodViewHolder = (GoodViewHolder) holder;
             NewGoodBean good = mGoodList.get(position);
-            ((GoodViewHolder) holder).tvGoodName.setText(good.getGoodsName());
-            ((GoodViewHolder) holder).tvGoodPrice.setText(good.getCurrencyPrice());
+            ImageUtils.setGoodThumb(mContext,mGoodViewHolder.ivGoodThumb,good.getGoodsThumb());
+            // mGoodViewHolder.ivGoodThumb.setImageURI(good.getGoodsThumb());
+            mGoodViewHolder.tvGoodName.setText(good.getGoodsName());
+            mGoodViewHolder.tvGoodPrice.setText(good.getCurrencyPrice());
         }
     }
 
@@ -51,17 +56,25 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         return mGoodList.size();
     }
 
-    class GoodViewHolder extends RecyclerView.ViewHolder {
-        LinearLayout layout;
+    public void initData(ArrayList<NewGoodBean> list) {
+        if (mGoodList != null) {
+            mGoodList.clear();
+        }
+        mGoodList.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    class GoodViewHolder extends RecyclerView.ViewHolder{
+        LinearLayout layoutGood;
         ImageView ivGoodThumb;
-        TextView tvGoodName,tvGoodPrice;
+        TextView tvGoodName;
+        TextView tvGoodPrice;
         public GoodViewHolder(View itemView) {
             super(itemView);
-            layout = (LinearLayout) itemView.findViewById(R.id.layout_good);
+            layoutGood = (LinearLayout) itemView.findViewById(R.id.layout_good);
             ivGoodThumb = (ImageView) itemView.findViewById(R.id.iv_good_thumb);
             tvGoodName = (TextView) itemView.findViewById(R.id.tv_good_name);
             tvGoodPrice = (TextView) itemView.findViewById(R.id.tv_good_price);
         }
     }
-
 }
