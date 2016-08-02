@@ -13,6 +13,7 @@ import java.text.FieldPosition;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.ucai.I;
 import cn.ucai.bean.NewGoodBean;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.utils.ImageUtils;
@@ -24,6 +25,17 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     Context mContext;
     List<NewGoodBean> mGoodList;
     GoodViewHolder mGoodViewHolder;
+    FooterViewHolder mFooterViewHolder;
+    boolean isMore;
+    String footerString;
+
+    public void setFooterString(String footerString) {
+        this.footerString = footerString;
+    }
+
+    public void setMore(boolean more) {
+        isMore = more;
+    }
 
     public GoodsAdapter(Context context, List<NewGoodBean> list) {
         mContext = context;
@@ -35,7 +47,14 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder holder = null;
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        holder = new GoodViewHolder(inflater.inflate(R.layout.item_good,null,false));
+        switch (viewType) {
+            case I.TYPE_FOOTER:
+                holder = new FooterViewHolder(inflater.inflate(R.layout.item_footer, parent, false));
+                break;
+            case I.TYPE_ITEM:
+                holder = new GoodViewHolder(inflater.inflate(R.layout.item_good,null,false));
+                break;
+        }
         return holder;
     }
 
@@ -49,11 +68,24 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             mGoodViewHolder.tvGoodName.setText(good.getGoodsName());
             mGoodViewHolder.tvGoodPrice.setText(good.getCurrencyPrice());
         }
+        if (holder instanceof FooterViewHolder) {
+            mFooterViewHolder= (FooterViewHolder) holder;
+            mFooterViewHolder.tvFooter.setText(footerString);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mGoodList.size();
+        return mGoodList!=null?mGoodList.size()+1:1;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == getItemCount() - 1) {
+            return I.TYPE_FOOTER;
+        } else {
+            return I.TYPE_ITEM;
+        }
     }
 
     public void initData(ArrayList<NewGoodBean> list) {
@@ -64,6 +96,17 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         notifyDataSetChanged();
     }
 
+    public boolean isMore() {
+        return isMore;
+    }
+
+    class FooterViewHolder extends RecyclerView.ViewHolder {
+        TextView tvFooter;
+        public FooterViewHolder(View itemView) {
+            super(itemView);
+            tvFooter = (TextView) itemView.findViewById(R.id.tv_footer);
+        }
+    }
     class GoodViewHolder extends RecyclerView.ViewHolder{
         LinearLayout layoutGood;
         ImageView ivGoodThumb;

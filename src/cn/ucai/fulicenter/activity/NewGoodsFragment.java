@@ -71,8 +71,10 @@ public class NewGoodsFragment extends Fragment{
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastItemPosition == mAdapter.getItemCount() - 1) {
-                    pageId += I.PAGE_SIZE_DEFAULT;
-                    initData();
+                    if (mAdapter.isMore()) {
+                        pageId += I.PAGE_SIZE_DEFAULT;
+                        initData();
+                    }
                 }
             }
         });
@@ -96,10 +98,16 @@ public class NewGoodsFragment extends Fragment{
                 Log.e(TAG,"result="+result);
                 tvHint.setVisibility(View.GONE);
                 mSwipeRefreshLayout.setRefreshing(false);
+                mAdapter.setMore(true);
+                mAdapter.setFooterString(getResources().getString(R.string.load_more));
                 if (result!=null){
                     Log.e(TAG,"result.length="+result.length);
                     ArrayList<NewGoodBean> goodBeanArrayList = Utils.array2List(result);
                     mAdapter.initData(goodBeanArrayList);
+                    if (goodBeanArrayList.size() < I.PAGE_SIZE_DEFAULT) {
+                        mAdapter.setMore(false);
+                        mAdapter.setFooterString(getResources().getString(R.string.no_more));
+                    }
                 }
             }
 
