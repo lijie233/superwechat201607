@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import cn.ucai.I;
@@ -36,6 +38,7 @@ public class NewGoodsFragment extends Fragment{
     List<NewGoodBean> mGoodList;
     int pageId = 1;
     TextView tvHint;
+    int action=I.ACTION_DOWNLOAD;
     public NewGoodsFragment() {
 
     }
@@ -71,6 +74,7 @@ public class NewGoodsFragment extends Fragment{
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastItemPosition == mAdapter.getItemCount() - 1) {
+                    int action=I.ACTION_PULL_UP;
                     if (mAdapter.isMore()) {
                         pageId += I.PAGE_SIZE_DEFAULT;
                         initData();
@@ -84,6 +88,7 @@ public class NewGoodsFragment extends Fragment{
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                int action=I.ACTION_PULL_DOWN;
                 tvHint.setVisibility(View.VISIBLE);
                 pageId=0;
                 initData();
@@ -100,14 +105,21 @@ public class NewGoodsFragment extends Fragment{
                 mSwipeRefreshLayout.setRefreshing(false);
                 mAdapter.setMore(true);
                 mAdapter.setFooterString(getResources().getString(R.string.load_more));
-                if (result!=null){
-                    Log.e(TAG,"result.length="+result.length);
+                if (result != null) {
+                    Log.e(TAG, "result.length=" + result.length);
                     ArrayList<NewGoodBean> goodBeanArrayList = Utils.array2List(result);
-                    mAdapter.initData(goodBeanArrayList);
+                    if (action == I.ACTION_DOWNLOAD || action == I.ACTION_PULL_DOWN) {
+                        mAdapter.initData(goodBeanArrayList);
+                    } else {
+                        mAdapter.addItem(goodBeanArrayList);
+                    }
                     if (goodBeanArrayList.size() < I.PAGE_SIZE_DEFAULT) {
                         mAdapter.setMore(false);
                         mAdapter.setFooterString(getResources().getString(R.string.no_more));
                     }
+                } else {
+                    mAdapter.setMore(false);
+                    mAdapter.setFooterString(getResources().getString(R.string.no_more));
                 }
             }
 
@@ -145,5 +157,6 @@ public class NewGoodsFragment extends Fragment{
         mRecyclerView.setAdapter(mAdapter);
         tvHint = (TextView) layout.findViewById(R.id.tv_refresh_hint);
     }
+
 
 }
