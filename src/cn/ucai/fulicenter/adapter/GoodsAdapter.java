@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import java.text.FieldPosition;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import cn.ucai.I;
@@ -31,6 +33,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     public void setFooterString(String footerString) {
         this.footerString = footerString;
+        notifyDataSetChanged();
     }
 
     public void setMore(boolean more) {
@@ -41,6 +44,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         mContext = context;
         mGoodList = new ArrayList<NewGoodBean>();
         mGoodList.addAll(list);
+        soryByAddTime();
     }
 
     @Override
@@ -88,6 +92,8 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }
     }
 
+
+
     public void initData(ArrayList<NewGoodBean> list) {
         if (mGoodList != null) {
             mGoodList.clear();
@@ -98,6 +104,12 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     public boolean isMore() {
         return isMore;
+    }
+
+    public void addItem(ArrayList<NewGoodBean> goodBeanArrayList) {
+        mGoodList.addAll(goodBeanArrayList);
+        soryByAddTime();
+        notifyDataSetChanged();
     }
 
     class FooterViewHolder extends RecyclerView.ViewHolder {
@@ -119,5 +131,13 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             tvGoodName = (TextView) itemView.findViewById(R.id.tv_good_name);
             tvGoodPrice = (TextView) itemView.findViewById(R.id.tv_good_price);
         }
+    }
+    private void soryByAddTime() {
+        Collections.sort(mGoodList, new Comparator<NewGoodBean>() {
+            @Override
+            public int compare(NewGoodBean goodLeft, NewGoodBean goodRight) {
+                return (int)(Long.valueOf(goodRight.getAddTime())-Long.valueOf(goodLeft.getAddTime()));
+            }
+        });
     }
 }

@@ -67,7 +67,13 @@ public class NewGoodsFragment extends Fragment{
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                int f = mGridLayoutManager.findFirstCompletelyVisibleItemPosition();
+                int l = mGridLayoutManager.findLastCompletelyVisibleItemPosition();
                 lastItemPosition = mGridLayoutManager.findLastVisibleItemPosition();
+                mSwipeRefreshLayout.setEnabled(mGridLayoutManager.findFirstCompletelyVisibleItemPosition()==0);
+                if (f == -1 || l == -1) {
+                    lastItemPosition=mAdapter.getItemCount()-1;
+                }
             }
 
             @Override
