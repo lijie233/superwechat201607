@@ -1,6 +1,8 @@
 package cn.ucai.fulicenter.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
@@ -19,6 +21,8 @@ public class FuliCenterMainActivity extends BaseActivity{
     int index;
     int currentIndex;
     NewGoodsFragment mNewGoodsFragment;
+    BoutiqueFragment mBoutiqueFragment;
+    Fragment[] fragments=new Fragment[5];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +47,17 @@ public class FuliCenterMainActivity extends BaseActivity{
         mrbTabs[3] = rbCart;
         mrbTabs[4] = rbPersonalCenter;
 
+
         mNewGoodsFragment = new NewGoodsFragment();
+        mBoutiqueFragment = new BoutiqueFragment();
+        fragments[0]=mNewGoodsFragment;
+        fragments[1]=mBoutiqueFragment;
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, mNewGoodsFragment)
+                .add(R.id.fragment_container,mBoutiqueFragment)
+//                .hide(mNewGoodsFragment)
 //                .add(R.id.fragment_container, contactListFragment)
-//                .hide(contactListFragment)
+                .hide(mBoutiqueFragment)
                 .show(mNewGoodsFragment)
                 .commit();
     }
@@ -81,9 +91,22 @@ public class FuliCenterMainActivity extends BaseActivity{
         for (int i=0;i<mrbTabs.length;i++){
             if (index==i){
                 mrbTabs[i].setChecked(true);
+                showFragment(index);
             }else{
                 mrbTabs[i].setChecked(false);
             }
         }
+    }
+
+    private void showFragment(int index) {
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        if (!fragments[index].isAdded()) {
+            fragmentTransaction.add(R.id.fragment_container, fragments[index]);
+        }
+        fragmentTransaction
+                .hide(fragments[currentIndex])
+                .show( fragments[index])
+                .commit();
     }
 }
