@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,7 +20,9 @@ import cn.ucai.I;
 import cn.ucai.bean.BoutiqueBean;
 import cn.ucai.bean.NewGoodBean;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.activity.BoutiqueActivity;
 import cn.ucai.fulicenter.activity.GoodDetailsActivity;
+import cn.ucai.fulicenter.activity.NewGoodsFragment;
 import cn.ucai.fulicenter.utils.ImageUtils;
 
 /**
@@ -74,13 +75,16 @@ public class BoutiqueAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mBoutiqueHolder.tvTitle.setText(good.getTitle());
             mBoutiqueHolder.tvName.setText(good.getName());
             mBoutiqueHolder.tvDesc.setText(good.getDescription());
-//            mBoutiqueHolder.layoutBoutique.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    mContext.startActivity(new Intent(mContext, BoutiqueActivity.class).putExtra(D.GoodDetails.KEY_GOODS_ID, good.getGoodsId()));
-//
-//                }
-//            });
+            mBoutiqueHolder.layoutBoutique.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                     mContext.startActivity(new Intent(mContext, BoutiqueActivity.class)
+                             .putExtra(D.Boutique.KEY_GOODS_ID, good.getId())
+                     .putExtra(D.Boutique.KEY_NAME,good.getName()));
+
+                }
+            });
         }
         if (holder instanceof FooterViewHolder) {
             mFooterViewHolder= (FooterViewHolder) holder;

@@ -68,9 +68,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- 登陆 -->
+        <!-- GoodDetails -->
         <activity
             android:name="cn.ucai.fulicenter.activity.GoodDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide">
+        </activity>
+        <!-- 分类二级页面 -->
+        <activity
+            android:name="cn.ucai.fulicenter.activity.BoutiqueActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide">
         </activity>
