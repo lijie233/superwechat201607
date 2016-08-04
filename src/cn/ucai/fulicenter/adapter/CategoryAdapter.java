@@ -24,12 +24,12 @@ public class CategoryAdapter extends BaseExpandableListAdapter{
     List<CategoryGroupBean> mGroupList;
     List<ArrayList<CategoryChildBean>> mChildList;
 
-    public CategoryAdapter(List<ArrayList<CategoryChildBean>> mChildList, Context mContext, List<CategoryGroupBean> mGroupList) {
+    public CategoryAdapter( Context mContext, List<CategoryGroupBean> mGroupList,List<ArrayList<CategoryChildBean>> mChildList) {
         this.mContext = mContext;
         this.mChildList = new ArrayList<ArrayList<CategoryChildBean>>();
-        mChildList.addAll(mChildList);
+        this.mChildList.addAll(mChildList);
         this.mGroupList = new ArrayList<CategoryGroupBean>();
-        mGroupList.addAll(mGroupList);
+        this.mGroupList.addAll(mGroupList);
     }
 
     @Override
@@ -84,6 +84,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter{
             holder.ivGroupThumb = (ImageView) convertView.findViewById(R.id.iv_group_thumb);
             holder.tvGroupName = (TextView) convertView.findViewById(R.id.tv_group_name);
             holder.ivindicator = (ImageView) convertView.findViewById(R.id.iv_indicator);
+            convertView.setTag(holder);
         } else {
             holder = (GroupViewHolder) convertView.getTag();
         }
@@ -107,6 +108,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter{
             holder = new ChildViewHolder();
             holder.ivCategoryChildThumb = (ImageView) convertView.findViewById(R.id.iv_category_child_thumb);
             holder.tvCategoryChildName = (TextView) convertView.findViewById(R.id.tv_category_child_name);
+            convertView.setTag(holder);
         } else {
             holder = (ChildViewHolder) convertView.getTag();
         }
@@ -114,7 +116,6 @@ public class CategoryAdapter extends BaseExpandableListAdapter{
         if (child != null) {
             ImageUtils.setChildCategoryImage(mContext, holder.ivCategoryChildThumb, child.getImageUrl());
             holder.tvCategoryChildName.setText(child.getName());
-            convertView.setTag(holder);
         } else {
             holder = (ChildViewHolder) convertView.getTag();
 
@@ -125,6 +126,14 @@ public class CategoryAdapter extends BaseExpandableListAdapter{
     @Override
     public boolean isChildSelectable(int i, int i1) {
         return false;
+    }
+
+    public void addAll(List<CategoryGroupBean> mGroupList, List<ArrayList<CategoryChildBean>> mChildList) {
+        this.mGroupList.clear();
+        this.mGroupList.addAll(mGroupList);
+        this.mChildList.clear();
+        this.mChildList.addAll(mChildList);
+        notifyDataSetChanged();
     }
 
     class GroupViewHolder {
