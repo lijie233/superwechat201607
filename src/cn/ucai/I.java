@@ -509,7 +509,7 @@ public interface I {
             +"&"+Collect.GOODS_THUMB+"=";
 
     /** 下载分类商品小类图像的请求*/
-    String REQUEST_DOWNLOAD_CATEGORY_CHILD_IMAGE="download_category_child_image";
+    String REQUEST_DOWNLOAD_CATEGORY_CHILD_IMAGE="download_category_child_img";
     /** 下载分类商品小类图像的接口*/
     String REQUEST_DOWNLOAD_CATEGORY_CHILD_IMAGE_URL = I.SERVER_ROOT+
             "?request="+REQUEST_DOWNLOAD_CATEGORY_GROUP_IMAGE

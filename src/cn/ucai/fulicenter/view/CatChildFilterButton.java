@@ -1,4 +1,4 @@
-package cn.ucai.fulicenter.activity;
+package cn.ucai.fulicenter.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,12 +17,12 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
 import java.util.ArrayList;
 
 import cn.ucai.I;
 import cn.ucai.bean.CategoryChildBean;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.activity.CategoryChildActivity;
 import cn.ucai.fulicenter.utils.ImageUtils;
 import cn.ucai.fulicenter.utils.Utils;
 

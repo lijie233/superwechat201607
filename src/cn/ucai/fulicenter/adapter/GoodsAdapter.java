@@ -49,12 +49,12 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         mGoodList = new ArrayList<NewGoodBean>();
         mGoodList.addAll(list);
         sortBy = I.SORT_BY_ADDTIME_DESC;
-        soryBy();
+        sortBy();
     }
 
     public void setSortBy(int sortBy) {
         this.sortBy = sortBy;
-        soryBy();
+        sortBy();
         notifyDataSetChanged();
     }
 
@@ -126,7 +126,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     public void addItem(ArrayList<NewGoodBean> goodBeanArrayList) {
         mGoodList.addAll(goodBeanArrayList);
-        soryBy();
+        sortBy();
         notifyDataSetChanged();
     }
 
@@ -135,18 +135,42 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             mGoodList.clear();
         }
         mGoodList.addAll(list);
-        sortByAddTime();
+        sortBy();
         notifyDataSetChanged();
     }
 
-    private void sortByAddTime(){
+    private void sortBy(){
         Collections.sort(mGoodList, new Comparator<NewGoodBean>() {
             @Override
             public int compare(NewGoodBean goodLeft, NewGoodBean goodRight) {
-                return (int)(Long.valueOf(goodRight.getAddTime())-Long.valueOf(goodLeft.getAddTime()));
+                int result = 0;
+                switch (sortBy){
+                    case I.SORT_BY_ADDTIME_DESC:
+                        result = (int)(Long.valueOf(goodRight.getAddTime())-Long.valueOf(goodLeft.getAddTime()));
+                        break;
+                    case I.SORT_BY_ADDTIME_ASC:
+                        result = (int)(Long.valueOf(goodLeft.getAddTime())-Long.valueOf(goodRight.getAddTime()));
+                        break;
+                    case I.SORT_BY_PRICE_DESC:
+                        result = convertPrice(goodRight.getCurrencyPrice())-convertPrice(goodLeft.getCurrencyPrice());
+                        break;
+                    case I.SORT_BY_PRICE_ASC:
+                        result = convertPrice(goodLeft.getCurrencyPrice())-convertPrice(goodRight.getCurrencyPrice());
+                        break;
+                }
+                return result;
+            }
+            private int convertPrice(String price) {
+                price = price.substring(price.indexOf("￥")+1);
+                return Integer.valueOf(price);
             }
         });
     }
+    private int convertPrice(String price){
+        price = price.substring(1,price.length());
+        return Integer.parseInt(price);
+    }
+
 
 
 

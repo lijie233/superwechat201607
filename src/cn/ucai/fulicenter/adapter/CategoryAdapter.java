@@ -108,7 +108,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter{
     }
 
     @Override
-    public View getChildView(final int groupPosition, final int childPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    public View getChildView(final int groupPosition, final int childPosition, boolean isExpanded, View convertView, final ViewGroup parent) {
 
         ChildViewHolder holder=null;
         if (convertView == null) {
@@ -126,19 +126,20 @@ public class CategoryAdapter extends BaseExpandableListAdapter{
         if (child != null) {
             ImageUtils.setChildCategoryImage(mContext, holder.ivCategoryChildThumb, child.getImageUrl());
             holder.tvCategoryChildName.setText(child.getName());
+            holder.layoutCategoryChild.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.e("main", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                    mContext.startActivity(new Intent(mContext, CategoryChildActivity.class)
+                            .putExtra(I.CategoryChild.CAT_ID,child.getId())
+                            .putExtra(I.CategoryGroup.NAME,mGroupList.get(groupPosition).getName())
+                            .putExtra("childList",mChildList.get(groupPosition)));
+                }
+            });
         } else {
             holder = (ChildViewHolder) convertView.getTag();
 
         }
-        holder.layoutCategoryChild.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.e("main", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                mContext.startActivity(new Intent(mContext, CategoryChildActivity.class)
-                        .putExtra(I.NewAndBoutiqueGood.CAT_ID,child.getId()));
-
-            }
-        });
 
         return convertView;
     }
