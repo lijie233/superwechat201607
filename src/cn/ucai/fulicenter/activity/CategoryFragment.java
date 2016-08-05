@@ -86,6 +86,7 @@ public class CategoryFragment extends Fragment{
                 .targetClass(CategoryGroupBean[].class)
                 .execute(listener);
     }
+
     private void findCategoryChildList(int parentId,final int index){
         OkHttpUtils2<CategoryChildBean[]> utils = new OkHttpUtils2<CategoryChildBean[]>();
         utils.setRequestUrl(I.REQUEST_FIND_CATEGORY_CHILDREN)

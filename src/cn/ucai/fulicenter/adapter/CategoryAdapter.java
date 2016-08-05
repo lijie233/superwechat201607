@@ -1,6 +1,9 @@
 package cn.ucai.fulicenter.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.nfc.Tag;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -11,9 +14,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.ucai.D;
+import cn.ucai.I;
 import cn.ucai.bean.CategoryChildBean;
 import cn.ucai.bean.CategoryGroupBean;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.activity.BoutiqueActivity;
+import cn.ucai.fulicenter.activity.CategoryChildActivity;
 import cn.ucai.fulicenter.utils.ImageUtils;
 
 /**
@@ -101,18 +108,21 @@ public class CategoryAdapter extends BaseExpandableListAdapter{
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    public View getChildView(final int groupPosition, final int childPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+
         ChildViewHolder holder=null;
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.item_category_child, null);
             holder = new ChildViewHolder();
+            holder.layoutCategoryChild = (RelativeLayout) convertView.findViewById(R.id.layout_category_child);
             holder.ivCategoryChildThumb = (ImageView) convertView.findViewById(R.id.iv_category_child_thumb);
             holder.tvCategoryChildName = (TextView) convertView.findViewById(R.id.tv_category_child_name);
             convertView.setTag(holder);
+
         } else {
             holder = (ChildViewHolder) convertView.getTag();
         }
-        CategoryChildBean child = getChild(groupPosition, childPosition);
+        final CategoryChildBean child = getChild(groupPosition, childPosition);
         if (child != null) {
             ImageUtils.setChildCategoryImage(mContext, holder.ivCategoryChildThumb, child.getImageUrl());
             holder.tvCategoryChildName.setText(child.getName());
@@ -120,6 +130,16 @@ public class CategoryAdapter extends BaseExpandableListAdapter{
             holder = (ChildViewHolder) convertView.getTag();
 
         }
+        holder.layoutCategoryChild.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("main", "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                mContext.startActivity(new Intent(mContext, CategoryChildActivity.class)
+                        .putExtra(I.NewAndBoutiqueGood.CAT_ID,child.getId()));
+
+            }
+        });
+
         return convertView;
     }
 

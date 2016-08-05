@@ -122,6 +122,26 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         notifyDataSetChanged();
     }
 
+    public void initItem(ArrayList<NewGoodBean> list) {
+        if (mGoodList!=null){
+            mGoodList.clear();
+        }
+        mGoodList.addAll(list);
+        sortByAddTime();
+        notifyDataSetChanged();
+    }
+
+    private void sortByAddTime(){
+        Collections.sort(mGoodList, new Comparator<NewGoodBean>() {
+            @Override
+            public int compare(NewGoodBean goodLeft, NewGoodBean goodRight) {
+                return (int)(Long.valueOf(goodRight.getAddTime())-Long.valueOf(goodLeft.getAddTime()));
+            }
+        });
+    }
+
+
+
     class FooterViewHolder extends RecyclerView.ViewHolder {
         TextView tvFooter;
         public FooterViewHolder(View itemView) {
