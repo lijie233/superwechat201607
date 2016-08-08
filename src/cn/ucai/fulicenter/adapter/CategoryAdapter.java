@@ -2,7 +2,6 @@ package cn.ucai.fulicenter.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +13,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.ucai.D;
-import cn.ucai.I;
-import cn.ucai.bean.CategoryChildBean;
-import cn.ucai.bean.CategoryGroupBean;
+import cn.ucai.fulicenter.I;
+import cn.ucai.fulicenter.bean.CategoryChildBean;
+import cn.ucai.fulicenter.bean.CategoryGroupBean;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.activity.BoutiqueActivity;
 import cn.ucai.fulicenter.activity.CategoryChildActivity;
 import cn.ucai.fulicenter.utils.ImageUtils;
 

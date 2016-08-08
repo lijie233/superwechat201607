@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import cn.ucai.bean.UserAvatar;
+import cn.ucai.fulicenter.bean.UserAvatar;
 
 public class FuliCenterApplication extends Application {
 

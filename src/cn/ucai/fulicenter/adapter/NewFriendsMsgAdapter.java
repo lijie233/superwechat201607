@@ -19,28 +19,24 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.easemob.chat.EMChatManager;
-
-import cn.ucai.I;
-import cn.ucai.bean.Result;
-import cn.ucai.bean.UserAvatar;
+import cn.ucai.fulicenter.I;
+import cn.ucai.fulicenter.bean.Result;
+import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.db.InviteMessgeDao;
 import cn.ucai.fulicenter.domain.InviteMessage;
 import cn.ucai.fulicenter.utils.UserUtils;
 import cn.ucai.fulicenter.utils.Utils;
-import cn.ucai.data.OkHttpUtils2;
+import cn.ucai.fulicenter.data.OkHttpUtils2;
 
 public class NewFriendsMsgAdapter extends ArrayAdapter<InviteMessage> {
 

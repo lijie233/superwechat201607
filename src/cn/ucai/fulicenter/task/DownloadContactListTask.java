@@ -7,12 +7,12 @@ import android.util.Log;
 import java.util.List;
 import java.util.Map;
 
-import cn.ucai.I;
-import cn.ucai.bean.Result;
-import cn.ucai.bean.UserAvatar;
+import cn.ucai.fulicenter.I;
+import cn.ucai.fulicenter.bean.Result;
+import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.utils.Utils;
-import cn.ucai.data.OkHttpUtils2;
+import cn.ucai.fulicenter.data.OkHttpUtils2;
 
 /**
  * Created by Administrator on 2016/7/20.

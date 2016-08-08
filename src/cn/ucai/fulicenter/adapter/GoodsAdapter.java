@@ -10,15 +10,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.text.FieldPosition;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import cn.ucai.D;
-import cn.ucai.I;
-import cn.ucai.bean.NewGoodBean;
+import cn.ucai.fulicenter.D;
+import cn.ucai.fulicenter.I;
+import cn.ucai.fulicenter.bean.NewGoodBean;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.GoodDetailsActivity;
 import cn.ucai.fulicenter.utils.ImageUtils;

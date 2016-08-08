@@ -26,18 +26,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import cn.ucai.I;
-import cn.ucai.applib.controller.HXSDKHelper;
+import cn.ucai.fulicenter.I;
+import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMContactManager;
 
-import cn.ucai.bean.Result;
-import cn.ucai.bean.UserAvatar;
+import cn.ucai.fulicenter.bean.Result;
+import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.utils.UserUtils;
 import cn.ucai.fulicenter.utils.Utils;
-import cn.ucai.data.OkHttpUtils2;
+import cn.ucai.fulicenter.data.OkHttpUtils2;
 
 public class AddContactActivity extends BaseActivity{
 	private EditText editText;

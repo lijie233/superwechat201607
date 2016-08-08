@@ -14,13 +14,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.ucai.D;
-import cn.ucai.I;
-import cn.ucai.bean.CategoryChildBean;
-import cn.ucai.bean.NewGoodBean;
-import cn.ucai.data.OkHttpUtils2;
+import cn.ucai.fulicenter.I;
+import cn.ucai.fulicenter.bean.CategoryChildBean;
+import cn.ucai.fulicenter.bean.NewGoodBean;
+import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.adapter.CategoryAdapter;
 import cn.ucai.fulicenter.adapter.GoodsAdapter;
 import cn.ucai.fulicenter.utils.Utils;
 import cn.ucai.fulicenter.view.CatChildFilterButton;

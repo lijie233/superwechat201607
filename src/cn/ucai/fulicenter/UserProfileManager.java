@@ -6,8 +6,8 @@ import java.util.List;
 import android.content.Context;
 
 import com.easemob.EMValueCallBack;
-import cn.ucai.applib.controller.HXSDKHelper.HXSyncListener;
-import cn.ucai.applib.utils.HXPreferenceUtils;
+import cn.ucai.fulicenter.applib.controller.HXSDKHelper.HXSyncListener;
+import cn.ucai.fulicenter.applib.utils.HXPreferenceUtils;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import cn.ucai.fulicenter.domain.User;

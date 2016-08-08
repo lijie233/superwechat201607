@@ -35,16 +35,16 @@ import android.widget.Toast;
 
 import com.easemob.EMCallBack;
 
-import cn.ucai.I;
-import cn.ucai.applib.controller.HXSDKHelper;
+import cn.ucai.fulicenter.I;
+import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
-import cn.ucai.bean.Result;
-import cn.ucai.bean.UserAvatar;
+import cn.ucai.fulicenter.bean.Result;
+import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.Constant;
 import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
@@ -55,7 +55,7 @@ import cn.ucai.fulicenter.task.DownloadContactListTask;
 import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.UserUtils;
 import cn.ucai.fulicenter.utils.Utils;
-import cn.ucai.data.OkHttpUtils2;
+import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.view.DisplayUtils;
 
 /**

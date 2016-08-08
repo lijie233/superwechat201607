@@ -1,6 +1,6 @@
 package cn.ucai.fulicenter.receiver;
 
-import cn.ucai.applib.controller.HXSDKHelper;
+import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 
 import android.app.Notification;
 import android.app.NotificationManager;

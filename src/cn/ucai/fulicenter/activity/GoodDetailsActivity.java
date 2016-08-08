@@ -7,11 +7,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import cn.ucai.D;
-import cn.ucai.I;
-import cn.ucai.bean.AlbumBean;
-import cn.ucai.bean.GoodDetailsBean;
-import cn.ucai.data.OkHttpUtils2;
+import cn.ucai.fulicenter.D;
+import cn.ucai.fulicenter.I;
+import cn.ucai.fulicenter.bean.AlbumBean;
+import cn.ucai.fulicenter.bean.GoodDetailsBean;
+import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.view.DisplayUtils;
 import cn.ucai.fulicenter.view.FlowIndicator;

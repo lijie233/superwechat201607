@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 import android.util.Log;
 
-import cn.ucai.bean.UserAvatar;
+import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.Constant;
 import cn.ucai.fulicenter.domain.InviteMessage;
 import cn.ucai.fulicenter.domain.RobotUser;

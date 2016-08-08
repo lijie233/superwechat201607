@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import cn.ucai.I;
-import cn.ucai.bean.Pager;
-import cn.ucai.bean.Result;
+import cn.ucai.fulicenter.I;
+import cn.ucai.fulicenter.bean.Pager;
+import cn.ucai.fulicenter.bean.Result;
 
 
 /**

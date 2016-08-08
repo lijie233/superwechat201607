@@ -18,7 +18,7 @@ import java.util.Map;
 
 import android.content.Context;
 
-import cn.ucai.applib.model.DefaultHXSDKModel;
+import cn.ucai.fulicenter.applib.model.DefaultHXSDKModel;
 import cn.ucai.fulicenter.db.DemoDBManager;
 import cn.ucai.fulicenter.db.UserDao;
 import cn.ucai.fulicenter.domain.RobotUser;

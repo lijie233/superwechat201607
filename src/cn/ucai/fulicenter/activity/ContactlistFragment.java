@@ -52,13 +52,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import cn.ucai.I;
-import cn.ucai.applib.controller.HXSDKHelper;
+import cn.ucai.fulicenter.I;
+import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 
 import com.easemob.chat.EMContactManager;
 
-import cn.ucai.bean.Result;
-import cn.ucai.bean.UserAvatar;
+import cn.ucai.fulicenter.bean.Result;
+import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.Constant;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.R;
@@ -68,7 +68,7 @@ import cn.ucai.fulicenter.db.InviteMessgeDao;
 import cn.ucai.fulicenter.db.UserDao;
 import cn.ucai.fulicenter.domain.User;
 import cn.ucai.fulicenter.widget.Sidebar;
-import cn.ucai.data.OkHttpUtils2;
+import cn.ucai.fulicenter.data.OkHttpUtils2;
 
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;

@@ -19,7 +19,7 @@ import java.util.Map;
 import android.content.Context;
 
 
-import cn.ucai.bean.UserAvatar;
+import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.domain.RobotUser;
 import cn.ucai.fulicenter.domain.User;
 

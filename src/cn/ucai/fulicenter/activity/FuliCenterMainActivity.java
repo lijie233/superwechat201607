@@ -126,9 +126,7 @@ public class FuliCenterMainActivity extends BaseActivity{
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ACTION_LOGIN) {
             if (DemoHXSDKHelper.getInstance().isLogined()) {
-
-            } else {
-                setRadioButtonStatus(currentIndex);
+                index=4;
             }
         }
     }
@@ -136,15 +134,11 @@ public class FuliCenterMainActivity extends BaseActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        if (DemoHXSDKHelper.getInstance().isLogined()) {
-
-        } else {
-            index = currentIndex;
-            if (index == 4) {
-                index=0;
-            }
-            setFragment();
+        if (DemoHXSDKHelper.getInstance().isLogined() && index==4) {
+            index=0;
         }
+        setFragment();
+        setRadioButtonStatus(currentIndex);
     }
 
     private void setFragment() {

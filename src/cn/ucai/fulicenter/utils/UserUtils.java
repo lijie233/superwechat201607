@@ -5,10 +5,10 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import cn.ucai.I;
-import cn.ucai.applib.controller.HXSDKHelper;
+import cn.ucai.fulicenter.I;
+import cn.ucai.fulicenter.applib.controller.HXSDKHelper;
 
-import cn.ucai.bean.UserAvatar;
+import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 
 import cn.ucai.fulicenter.R;

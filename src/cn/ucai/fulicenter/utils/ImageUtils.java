@@ -20,7 +20,7 @@ import com.easemob.util.EMLog;
 import com.easemob.util.PathUtil;
 import com.squareup.picasso.Picasso;
 
-import cn.ucai.I;
+import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 
 public class ImageUtils {
