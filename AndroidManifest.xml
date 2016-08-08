@@ -87,6 +87,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide">
         </activity>
+
+        <!-- 设置 -->
+        <activity
+            android:name="cn.ucai.fulicenter.activity.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide">
+        </activity>
         <!-- 登陆 -->
         <activity
             android:name="cn.ucai.fulicenter.activity.LoginActivity"
@@ -101,7 +108,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide" 
             android:windowSoftInputMode="adjustResize|stateVisible">
-        </activity>
         <!-- 聊天页面 -->
         <activity
             android:name="cn.ucai.fulicenter.activity.ChatActivity"
@@ -334,6 +340,6 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="3ecea51f560650b1ed8a4b99808f52e8" />
 
-          </application>
+          </activity></application>
 
 </manifest>
