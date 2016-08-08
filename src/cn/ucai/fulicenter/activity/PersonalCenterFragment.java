@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,8 @@ public class PersonalCenterFragment extends Fragment {
         MyClickListener listener = new MyClickListener();
         mtvSettings.setOnClickListener(listener);
         layoutUserCenter.setOnClickListener(listener);
+        layoutCollect.setOnClickListener(listener);
+
     }
 
     class MyClickListener implements View.OnClickListener {
@@ -55,9 +58,14 @@ public class PersonalCenterFragment extends Fragment {
                 switch (view.getId()) {
                     case R.id.tv_center_settings:
                     case R.id.center_user_info:
-                        startActivity(new Intent(mContext,SettingsActivity.class));
-                    break;
+                        startActivity(new Intent(mContext, SettingsActivity.class));
+                        break;
+                    case R.id.layout_center_collect:
+                        startActivity(new Intent(mContext, CollectActivity.class));
+                        break;
                 }
+            } else {
+                Log.e(TAG, "not logined...");
             }
         }
     }
