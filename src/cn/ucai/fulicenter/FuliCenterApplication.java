@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import cn.ucai.fulicenter.bean.CartBean;
 import cn.ucai.fulicenter.bean.UserAvatar;
 
 public class FuliCenterApplication extends Application {
@@ -124,6 +126,15 @@ public class FuliCenterApplication extends Application {
 	private Map<String,UserAvatar> userMap = new HashMap<String, UserAvatar>();
 	/**全局的当前登录用户的收藏商品的数量*/
 	private int collectCount;
+	private List<CartBean> cartList = new ArrayList<CartBean>();
+
+	public List<CartBean> getCartList() {
+		return cartList;
+	}
+
+	public void setCartList(List<CartBean> cartList) {
+		this.cartList = cartList;
+	}
 
 	public int getCollectCount() {
 		return collectCount;
