@@ -1,6 +1,9 @@
 package cn.ucai.fulicenter.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -45,6 +48,13 @@ public class GoodDetailsActivity extends BaseActivity{
         mContext=this;
         initView();
         initData();
+        setListener();
+    }
+
+    private void setListener() {
+        MyOnClickListener listener = new MyOnClickListener();
+        ivCollect.setOnClickListener(listener);
+        setUpdateCollectListListener();
     }
 
     private void initData() {
@@ -184,6 +194,7 @@ public class GoodDetailsActivity extends BaseActivity{
                                 if (result != null && result.isSuccess()) {
                                     isCollect = false;
                                     new DownloadCollectCountTask(mContext, FuliCenterApplication.getInstance().getUserName());
+                                    sendStickyBroadcast(new Intent("update_collect_list"));
                                 } else {
                                     Log.e(TAG, "delete fail");
                                 }
@@ -197,7 +208,35 @@ public class GoodDetailsActivity extends BaseActivity{
                             }
                         });
             } else {
+                OkHttpUtils2<MessageBean> utils = new OkHttpUtils2<MessageBean>();
+                utils.setRequestUrl(I.REQUEST_ADD_COLLECT)
+                        .addParam(I.Collect.USER_NAME,FuliCenterApplication.getInstance().getUserName())
+                        .addParam(I.Collect.GOODS_ID,String.valueOf(mGoodDetail.getGoodsId()))
+                        .addParam(I.Collect.ADD_TIME,String.valueOf(mGoodDetail.getAddTime()))
+                        .addParam(I.Collect.GOODS_ENGLISH_NAME,mGoodDetail.getGoodsEnglishName())
+                        .addParam(I.Collect.GOODS_IMG,mGoodDetail.getGoodsImg())
+                        .addParam(I.Collect.GOODS_THUMB,mGoodDetail.getGoodsThumb())
+                        .addParam(I.Collect.GOODS_NAME,mGoodDetail.getGoodsName())
+                        .targetClass(MessageBean.class)
+                        .execute(new OkHttpUtils2.OnCompleteListener<MessageBean>() {
+                            @Override
+                            public void onSuccess(MessageBean result) {
+                                if (result != null && result.isSuccess()) {
+                                    isCollect = true;
+                                    new DownloadCollectCountTask(mContext, FuliCenterApplication.getInstance().getUserName());
+                                    sendStickyBroadcast(new Intent("update_collect_list"));
+                                } else {
+                                    Log.e(TAG, "detele fail");
+                                }
+                                updateCollectStatus();
+                                Toast.makeText(mContext,result.getMsg(),Toast.LENGTH_SHORT).show();
+                            }
 
+                            @Override
+                            public void onError(String error) {
+
+                            }
+                        });
             }
         }else {
             startActivity(new Intent(mContext, LoginActivity.class));
@@ -212,5 +251,26 @@ public class GoodDetailsActivity extends BaseActivity{
         }
     }
 
+    class UpdateCollectListReceiver extends BroadcastReceiver {
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            initData();
+        }
+    }
+    UpdateCollectListReceiver mReceiver;
+
+    private void setUpdateCollectListListener() {
+        mReceiver = new UpdateCollectListReceiver();
+        IntentFilter filter = new IntentFilter("update_collect_list");
+        registerReceiver(mReceiver, filter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mReceiver != null) {
+            unregisterReceiver(mReceiver);
+        }
+    }
 }
