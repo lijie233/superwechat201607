@@ -115,6 +115,7 @@ public class FuliCenterMainActivity extends BaseActivity{
             if (index==i){
                 mrbTabs[i].setChecked(true);
                 showFragment(index);
+//                setFragment();
             }else{
                 mrbTabs[i].setChecked(false);
             }
@@ -137,22 +138,23 @@ public class FuliCenterMainActivity extends BaseActivity{
         if (DemoHXSDKHelper.getInstance().isLogined() && index==4) {
             index=0;
         }
-        setFragment();
+        showFragment(index);
+//        setFragment();
         setRadioButtonStatus(currentIndex);
     }
 
-    private void setFragment() {
-        if (index != currentIndex) {
-            FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
-            trx.hide(fragments[currentIndex]);
-            if (!fragments[index].isAdded()) {
-                trx.add(R.id.fragment_container, fragments[index]);
-            }
-            trx.show(fragments[index]).commit();
-            setRadioButtonStatus(index);
-            currentIndex = index;
-        }
-    }
+//    private void setFragment() {
+//        if (index != currentIndex) {
+//            FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
+//            trx.hide(fragments[currentIndex]);
+//            if (!fragments[index].isAdded()) {
+//                trx.add(R.id.fragment_container, fragments[index]);
+//            }
+//            trx.show(fragments[index]).commit();
+//            setRadioButtonStatus(index);
+//            currentIndex = index;
+//        }
+//    }
 
     private void showFragment(int index) {
 

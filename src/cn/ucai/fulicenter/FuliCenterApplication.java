@@ -17,6 +17,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.easemob.EMCallBack;
+import com.easemob.chat.EMChat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +41,7 @@ public class FuliCenterApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		EMChat.getInstance().setAppkey("771706409#fulicenterapp");
 		applicationContext = this;
 		instance = this;
 
@@ -62,6 +64,7 @@ public class FuliCenterApplication extends Application {
 		 * }
 		 */
 		hxSDKHelper.onInit(applicationContext);
+
 	}
 
 	public static FuliCenterApplication getInstance() {

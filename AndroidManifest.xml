@@ -83,7 +83,7 @@
 
         <!-- 分类二级页面 -->
         <activity
-            android:name=".activity.CategoryChildActivity"
+            android:name="cn.ucai.fulicenter.activity.CategoryChildActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide">
         </activity>
@@ -311,7 +311,8 @@
         <!-- 设置环信应用的appkey -->
         <meta-data
             android:name="EASEMOB_APPKEY"
-            android:value="771706409#fulicenter" />
+            android:value="771706409#fulicenterapp" />
+
         <!-- 声明sdk所需的service -->
         <service android:name="com.easemob.chat.EMChatService"/>
         <!-- 声明sdk所需的receiver -->
