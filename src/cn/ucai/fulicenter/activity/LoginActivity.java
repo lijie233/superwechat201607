@@ -51,6 +51,7 @@ import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.db.UserDao;
 import cn.ucai.fulicenter.domain.User;
+import cn.ucai.fulicenter.task.DownloadCollectCountTask;
 import cn.ucai.fulicenter.task.DownloadContactListTask;
 import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.UserUtils;
@@ -78,7 +79,7 @@ public class LoginActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		DisplayUtils.initBackWithTitle(this, "账户登录");
+
 		// 如果用户名密码都有，直接进入主页面
 		if (DemoHXSDKHelper.getInstance().isLogined()) {
 			autoLogin = true;
@@ -87,8 +88,10 @@ public class LoginActivity extends BaseActivity {
 			return;
 		}
 		setContentView(R.layout.activity_login);
+
 		usernameEditText = (EditText) findViewById(R.id.username);
 		passwordEditText = (EditText) findViewById(R.id.password);
+		DisplayUtils.initBack(this);
 
 		setListener();
 		if (FuliCenterApplication.getInstance().getUserName() != null) {
@@ -207,8 +210,7 @@ public class LoginActivity extends BaseActivity {
 						}else{
 							pd.dismiss();
 							Toast.makeText(getApplicationContext(),
-									R.string.Login_failed+
-											Utils.getResourceString(LoginActivity.this,result.getRetCode()),
+									R.string.Login_failed,
 									Toast.LENGTH_LONG).show();
 						}
 					}
@@ -230,25 +232,29 @@ public class LoginActivity extends BaseActivity {
 				.doInBackground(new Callback() {
 					@Override
 					public void onFailure(Request request, IOException e) {
+						Log.e(TAG,"IOException"+e.getMessage());
 					}
+
 					@Override
 					public void onResponse(Response response) throws IOException {
-						byte[] data=response.body().bytes();
-						final String avatarUrl = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getUserProfileManager().uploadUserAvatar(data);
-						Log.e(TAG, "avatarUrl=" + avatarUrl);
+						byte[] data = response.body().bytes();
+						final String avatarUrl = ((DemoHXSDKHelper)HXSDKHelper.getInstance()).getUserProfileManager().uploadUserAvatar(data);
+						Log.e(TAG,"avatarUrl="+avatarUrl);
 					}
 				})
 				.execute(new OkHttpUtils2.OnCompleteListener<Message>() {
 					@Override
 					public void onSuccess(Message result) {
-						Log.e(TAG, "result=" + result);
+						Log.e(TAG,"result="+result);
 					}
+
 					@Override
 					public void onError(String error) {
-						Log.e(TAG, "error=" + error);
+						Log.e(TAG,"error="+error);
 					}
 				});
 	}
+
 	private void saveUserToDB(UserAvatar user) {
 		UserDao dao = new UserDao(LoginActivity.this);
 		dao.saveUserAvatar(user);
@@ -263,8 +269,7 @@ public class LoginActivity extends BaseActivity {
 		FuliCenterApplication.currentUserNick = user.getMUserNick();
 		Log.e(TAG,"user.getMUserNick()"+user.getMUserNick());
 		new DownloadContactListTask(LoginActivity.this,currentUsername).execute();
-
-
+		new DownloadCollectCountTask(LoginActivity.this,currentUsername).execute();
 		try {
 			// ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
 			// ** manually load all local groups and
@@ -311,7 +316,7 @@ public class LoginActivity extends BaseActivity {
 		newFriends.setNick(strChat);
 
 		userlist.put(Constant.NEW_FRIENDS_USERNAME, newFriends);
-//		// 添加"群聊"
+		// 添加"群聊"
 //		User groupUser = new User();
 //		String strGroup = getResources().getString(R.string.group_chat);
 //		groupUser.setUsername(Constant.GROUP_USERNAME);

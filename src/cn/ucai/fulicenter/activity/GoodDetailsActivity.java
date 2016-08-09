@@ -1,6 +1,9 @@
 package cn.ucai.fulicenter.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -16,6 +19,7 @@ import cn.ucai.fulicenter.bean.GoodDetailsBean;
 import cn.ucai.fulicenter.bean.MessageBean;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.task.DownloadCollectCountTask;
 import cn.ucai.fulicenter.view.DisplayUtils;
 import cn.ucai.fulicenter.view.FlowIndicator;
 import cn.ucai.fulicenter.view.SlideAutoLoopView;
@@ -24,17 +28,21 @@ import cn.ucai.fulicenter.view.SlideAutoLoopView;
  * Created by Administrator on 2016/8/3.
  */
 public class GoodDetailsActivity extends BaseActivity{
+    private static final String TAG = GoodDetailsActivity.class.getSimpleName();
     ImageView ivShare,ivCollect,ivCart;
     TextView tvCartCount,tvGoodEnglishName,tvGoodName,tvGoodPriceCurrent,tvGoodPriceShop;
     SlideAutoLoopView mSlideAutoLoopView;
     FlowIndicator mFlowIndicator;
     WebView wvGoodBrief;
+    GoodDetailsActivity mContext;
     int mGoodId;
     GoodDetailsBean mGoodDetail;
+    boolean isCollect;
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_good_details);
+        mContext=this;
         initView();
         initData();
     }
@@ -135,10 +143,11 @@ public class GoodDetailsActivity extends BaseActivity{
                         @Override
                         public void onSuccess(MessageBean result) {
                             if (result != null && result.isSuccess()) {
-                                ivCollect.setImageResource(R.drawable.bg_collect_out);
+                                isCollect = true;
                             } else {
-                                ivCollect.setImageResource(R.drawable.bg_collect_in);
+                                isCollect = false;
                             }
+                            updateCollectStatus();
                         }
 
                         @Override
@@ -148,4 +157,60 @@ public class GoodDetailsActivity extends BaseActivity{
                     });
         }
     }
+
+    class MyOnClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.iv_good_collect:
+                    goodCollect();
+                    break;
+            }
+        }
+    }
+
+    private void goodCollect() {
+        if (DemoHXSDKHelper.getInstance().isLogined()) {
+            if (isCollect) {
+                OkHttpUtils2<MessageBean> utils = new OkHttpUtils2<MessageBean>();
+                utils.setRequestUrl(I.REQUEST_DELETE_COLLECT)
+                        .addParam(I.Collect.USER_NAME, FuliCenterApplication.getInstance().getUserName())
+                        .addParam(I.Collect.GOODS_ID, String.valueOf(mGoodId))
+                        .targetClass(MessageBean.class)
+                        .execute(new OkHttpUtils2.OnCompleteListener<MessageBean>() {
+                            @Override
+                            public void onSuccess(MessageBean result) {
+                                if (result != null && result.isSuccess()) {
+                                    isCollect = false;
+                                    new DownloadCollectCountTask(mContext, FuliCenterApplication.getInstance().getUserName());
+                                } else {
+                                    Log.e(TAG, "delete fail");
+                                }
+                                updateCollectStatus();
+                                Toast.makeText(mContext, result.getMsg(), Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onError(String error) {
+
+                            }
+                        });
+            } else {
+
+            }
+        }else {
+            startActivity(new Intent(mContext, LoginActivity.class));
+        }
+    }
+
+    private void updateCollectStatus() {
+        if (isCollect) {
+            ivCollect.setImageResource(R.drawable.bg_collect_out);
+        } else {
+            ivCollect.setImageResource(R.drawable.bg_collect_in);
+        }
+    }
+
+
 }
