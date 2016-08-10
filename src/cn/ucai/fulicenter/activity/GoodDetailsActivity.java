@@ -25,6 +25,7 @@ import cn.ucai.fulicenter.bean.MessageBean;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.task.DownloadCollectCountTask;
+import cn.ucai.fulicenter.utils.Utils;
 import cn.ucai.fulicenter.view.DisplayUtils;
 import cn.ucai.fulicenter.view.FlowIndicator;
 import cn.ucai.fulicenter.view.SlideAutoLoopView;
@@ -142,6 +143,18 @@ public class GoodDetailsActivity extends BaseActivity{
     protected void onResume() {
         super.onResume();
         initCollectStatus();
+        updateCartNum();
+    }
+
+    private void updateCartNum() {
+        int count = Utils.sumCartCount();
+        if (!DemoHXSDKHelper.getInstance().isLogined() || count == 0) {
+            tvCartCount.setText(String.valueOf(0));
+            tvCartCount.setVisibility(View.GONE);
+        } else {
+            tvCartCount.setText(String.valueOf(count));
+            tvCartCount.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initCollectStatus() {

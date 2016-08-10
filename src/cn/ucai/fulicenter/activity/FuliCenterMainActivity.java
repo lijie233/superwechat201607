@@ -152,6 +152,7 @@ public class FuliCenterMainActivity extends BaseActivity{
         showFragment(index);
 //        setFragment();
         setRadioButtonStatus(currentIndex);
+        updateCartNum();
     }
 
 //    private void setFragment() {
@@ -166,6 +167,8 @@ public class FuliCenterMainActivity extends BaseActivity{
 //            currentIndex = index;
 //        }
 //    }
+
+
 
     private void showFragment(int index) {
 
