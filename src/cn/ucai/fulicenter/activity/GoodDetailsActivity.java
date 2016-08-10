@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.ucai.fulicenter.D;
@@ -20,11 +22,13 @@ import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.bean.AlbumBean;
+import cn.ucai.fulicenter.bean.CartBean;
 import cn.ucai.fulicenter.bean.GoodDetailsBean;
 import cn.ucai.fulicenter.bean.MessageBean;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.task.DownloadCollectCountTask;
+import cn.ucai.fulicenter.task.UpdateCartListTask;
 import cn.ucai.fulicenter.utils.Utils;
 import cn.ucai.fulicenter.view.DisplayUtils;
 import cn.ucai.fulicenter.view.FlowIndicator;
@@ -195,8 +199,34 @@ public class GoodDetailsActivity extends BaseActivity{
                 case R.id.iv_good_share:
                     showShare();
                     break;
+                case R.id.iv_good_cart:
+                    addCart();
+                    break;
+                    
             }
         }
+    }
+
+    private void addCart() {
+        List<CartBean> cartList = FuliCenterApplication.getInstance().getCartList();
+        CartBean cart = new CartBean();
+        boolean isExits = false;
+        for (CartBean cartBean : cartList) {
+            if (cartBean.getGoodsId() == mGoodId) {
+                cart.setChecked(cartBean.isChecked());
+                cart.setCount(cartBean.getCount()+1);
+                cart.setGoods(mGoodDetail);
+                cart.setUserName(cartBean.getUserName());
+                isExits = true;
+            }
+        }
+        if (!isExits) {
+            cart.setChecked(true);
+            cart.setCount(1);
+            cart.setGoods(mGoodDetail);
+            cart.setUserName(FuliCenterApplication.getInstance().getUserName());
+        }
+        new UpdateCartListTask(mContext, cart).execute();
     }
 
     private void showShare() {
