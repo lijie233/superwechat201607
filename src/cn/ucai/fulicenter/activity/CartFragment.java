@@ -1,5 +1,9 @@
 package cn.ucai.fulicenter.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -38,6 +42,8 @@ public class CartFragment extends Fragment{
     RecyclerView mRecyclerView;
     LinearLayoutManager mLinearLayoutManager;
     CartAdapter mAdapter;
+
+    UpdateCartReceiver mReceiver;
     TextView tvHint;
     TextView tvSumPrice;
     TextView tvSavePrice;
@@ -64,6 +70,7 @@ public class CartFragment extends Fragment{
     private void setListener() {
         setPullDownRefreshListener();
         setPullUpRefrshListener();
+        setUpdateCartListener();
     }
     private void setPullUpRefrshListener() {
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -121,12 +128,12 @@ public class CartFragment extends Fragment{
             if (cartList.size() < I.PAGE_SIZE_DEFAULT) {
                 mAdapter.setMore(false);
             }
-            sumPrice();
             mSwipeRefreshLayout.setVisibility(View.VISIBLE);
         } else {
                     mAdapter.setMore(false);
             mSwipeRefreshLayout.setVisibility(View.GONE);
         }
+        sumPrice();
     }
 
     private void initView(View layout) {
@@ -174,4 +181,17 @@ public class CartFragment extends Fragment{
         return Integer.valueOf(price);
     }
 
+    class UpdateCartReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            initData();
+        }
+    }
+
+    private void setUpdateCartListener() {
+        mReceiver = new UpdateCartReceiver();
+        IntentFilter filter = new IntentFilter("update_cart_list");
+        filter.addAction("update_user");
+        mContext.registerReceiver(mReceiver, filter);
+    }
 }

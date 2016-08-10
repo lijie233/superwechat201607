@@ -35,7 +35,8 @@ public class FuliCenterMainActivity extends BaseActivity{
 
     updateCartNumReceiver mReceiver;
 
-    public static final int ACTION_LOGIN=100;
+    public static final int ACTION_LOGIN_PERSONAL=100;
+    public static final int ACTION_LOGIN_CART=200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,13 +100,17 @@ public class FuliCenterMainActivity extends BaseActivity{
                 index = 2;
                 break;
             case R.id.layout_cart:
-                index = 3;
+                if (DemoHXSDKHelper.getInstance().isLogined()) {
+                    index = 3;
+                } else {
+                    gotoLogin(ACTION_LOGIN_CART);
+                }
                 break;
             case R.id.layout_personal_center:
                 if (DemoHXSDKHelper.getInstance().isLogined()) {
                     index = 4;
                 } else {
-                    gotoLogin();
+                    gotoLogin(ACTION_LOGIN_PERSONAL);
                 } 
                 
                 break;
@@ -117,8 +122,8 @@ public class FuliCenterMainActivity extends BaseActivity{
         }
     }
 
-    private void gotoLogin() {
-        startActivityForResult(new Intent(this,LoginActivity.class),ACTION_LOGIN);
+    private void gotoLogin(int action) {
+        startActivityForResult(new Intent(this,LoginActivity.class),action);
     }
 
     private void setRadioButtonStatus(int index) {
@@ -136,9 +141,12 @@ public class FuliCenterMainActivity extends BaseActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ACTION_LOGIN) {
-            if (DemoHXSDKHelper.getInstance().isLogined()) {
+        if (DemoHXSDKHelper.getInstance().isLogined()) {
+            if (requestCode == ACTION_LOGIN_PERSONAL) {
                 index=4;
+            }
+            if (requestCode == ACTION_LOGIN_CART) {
+                index=3;
             }
         }
     }
@@ -193,6 +201,7 @@ public class FuliCenterMainActivity extends BaseActivity{
     private void setUpdateCartCountListener() {
         mReceiver = new updateCartNumReceiver();
         IntentFilter filter = new IntentFilter("update_cart_list");
+        filter.addAction("update_user");
         registerReceiver(mReceiver,filter);
     }
 
