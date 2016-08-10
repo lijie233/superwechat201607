@@ -1,7 +1,11 @@
 package cn.ucai.fulicenter.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -11,6 +15,7 @@ import android.widget.TextView;
 
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.utils.Utils;
 
 /**
  * Created by Administrator on 2016/8/1.
@@ -28,6 +33,8 @@ public class FuliCenterMainActivity extends BaseActivity{
     PersonalCenterFragment mPersonalCenterFragment;
     Fragment[] fragments=new Fragment[5];
 
+    updateCartNumReceiver mReceiver;
+
     public static final int ACTION_LOGIN=100;
 
     @Override
@@ -35,7 +42,11 @@ public class FuliCenterMainActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fulicenter_main);
         initView();
+        setListener();
+    }
 
+    private void setListener() {
+        setUpdateCartCountListener();
     }
 
     private void initView() {
@@ -166,5 +177,38 @@ public class FuliCenterMainActivity extends BaseActivity{
                 .hide(fragments[currentIndex])
                 .show( fragments[index])
                 .commit();
+    }
+
+    class updateCartNumReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateCartNum();
+        }
+    }
+
+    private void setUpdateCartCountListener() {
+        mReceiver = new updateCartNumReceiver();
+        IntentFilter filter = new IntentFilter("update_cart_list");
+        registerReceiver(mReceiver,filter);
+    }
+
+    private void updateCartNum() {
+        int count = Utils.sumCartCount();
+        if (!DemoHXSDKHelper.getInstance().isLogined() || count == 0) {
+            tvCartHint.setText(String.valueOf(0));
+            tvCartHint.setVisibility(View.GONE);
+        } else {
+            tvCartHint.setText(String.valueOf(count));
+            tvCartHint.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mReceiver != null) {
+            unregisterReceiver(mReceiver);
+        }
     }
 }
