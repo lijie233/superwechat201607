@@ -67,6 +67,6 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
-        android:text="88.88"
+        android:text="¥88.88"
         android:textColor="#f90"/>
 </RelativeLayout>
