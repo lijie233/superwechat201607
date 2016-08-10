@@ -16,12 +16,14 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.ucai.fulicenter.D;
 import cn.ucai.fulicenter.FuliCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.adapter.CartAdapter;
 import cn.ucai.fulicenter.bean.BoutiqueBean;
 import cn.ucai.fulicenter.bean.CartBean;
+import cn.ucai.fulicenter.bean.GoodDetailsBean;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.utils.Utils;
 
@@ -113,18 +115,18 @@ public class CartFragment extends Fragment{
         if (mCartList != null&&mCartList.size()>0) {
             if (action == I.ACTION_DOWNLOAD || action == I.ACTION_PULL_DOWN) {
                 mAdapter.initData(cartList);
-                } else {
+            } else {
                 mAdapter.addItem(cartList);
-                }
-                if (cartList.size() < I.PAGE_SIZE_DEFAULT) {
+            }
+            if (cartList.size() < I.PAGE_SIZE_DEFAULT) {
                 mAdapter.setMore(false);
-                }
+            }
+            sumPrice();
+            mSwipeRefreshLayout.setVisibility(View.VISIBLE);
         } else {
                     mAdapter.setMore(false);
-
+            mSwipeRefreshLayout.setVisibility(View.GONE);
         }
-
-
     }
 
     private void initView(View layout) {
@@ -145,6 +147,31 @@ public class CartFragment extends Fragment{
         tvSavePrice = (TextView) layout.findViewById(R.id.tv_cart_save_price);
         tvSumPrice = (TextView) layout.findViewById(R.id.tv_cart_sum_price);
         tvBuy = (TextView)layout.findViewById(R.id.tv_cart_buy);
+    }
+
+    private void sumPrice() {
+        if (mCartList != null && mCartList.size() > 0) {
+            int sumPrice = 0;
+            int rankPrice = 0;
+            for (CartBean cart : mCartList) {
+                GoodDetailsBean good = cart.getGoods();
+                if (good != null &&cart.isChecked()) {
+                    sumPrice += convertPrice(good.getCurrencyPrice())*cart.getCount();
+                    rankPrice += convertPrice(good.getRankPrice())*cart.getCount();
+                }
+            }
+            tvSumPrice.setText("合计: ¥"+sumPrice);
+            tvSavePrice.setText("节省: ¥"+(sumPrice-rankPrice));
+        } else {
+            tvSumPrice.setText("合计: ¥00.00");
+            tvSavePrice.setText("节省: ¥00.00");
+
+        }
+    }
+
+    private int convertPrice(String price) {
+        price = price.substring(price.indexOf("¥") + 1);
+        return Integer.valueOf(price);
     }
 
 }
