@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.BoutiqueActivity;
 import cn.ucai.fulicenter.bean.BoutiqueBean;
 import cn.ucai.fulicenter.bean.CartBean;
+import cn.ucai.fulicenter.task.UpdateCartListTask;
 import cn.ucai.fulicenter.utils.ImageUtils;
 
 /**
@@ -54,12 +56,22 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         if (holder instanceof CartHolder) {
             mCartHolder = (CartHolder) holder;
             final CartBean cart = mCartBean.get(position);
-            mCartHolder.cbCurtselected.setChecked(cart.isChecked());
-            ImageUtils.setGoodThumb(mContext, mCartHolder.ivCartThumb, cart.getGoods().getGoodsThumb());
-            mCartHolder.tvCartGoodName.setText(cart.getGoods().getGoodsName());
-            mCartHolder.tvCartCount.setText("(" + cart.getCount() + ")");
-            mCartHolder.tvCartPrice.setText(cart.getGoods().getCurrencyPrice());
+            mCartHolder.cbCartselected.setChecked(cart.isChecked());
+            if (cart.getGoods() != null) {
+                ImageUtils.setGoodThumb(mContext, mCartHolder.ivCartThumb, cart.getGoods().getGoodsThumb());
+                mCartHolder.tvCartGoodName.setText(cart.getGoods().getGoodsName());
+                mCartHolder.tvCartCount.setText("(" + cart.getCount() + ")");
+                mCartHolder.tvCartPrice.setText(cart.getGoods().getCurrencyPrice());
+            }
+            mCartHolder.cbCartselected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    cart.setChecked(isChecked);
+                    new UpdateCartListTask(mContext,cart).execute();
+                }
+            });
         }
+
     }
 
     @Override
@@ -92,7 +104,7 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }
     }
     class CartHolder extends RecyclerView.ViewHolder{
-        CheckBox cbCurtselected;
+        CheckBox cbCartselected;
         ImageView ivCartThumb;
         TextView tvCartGoodName;
         ImageView ivCartAdd;
@@ -101,7 +113,7 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         TextView tvCartPrice;
         public CartHolder(View itemView) {
             super(itemView);
-            cbCurtselected = (CheckBox) itemView.findViewById(R.id.cb_cart_selected);
+            cbCartselected = (CheckBox) itemView.findViewById(R.id.cb_cart_selected);
             ivCartThumb = (ImageView) itemView.findViewById(R.id.iv_cart_thumb);
             tvCartGoodName = (TextView) itemView.findViewById(R.id.tv_cart_good_name);
             ivCartAdd = (ImageView) itemView.findViewById(R.id.iv_cart_add);
